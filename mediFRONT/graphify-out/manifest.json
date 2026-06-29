@@ -1,0 +1,358 @@
+{
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/tailwind.config.js": {
+    "mtime": 1777556235.2088041,
+    "hash": "fec6379c47716de05317895f88b81769"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/vite.config.ts": {
+    "mtime": 1777006580.3285542,
+    "hash": "88439104b3c207f17d33ef3160e3b080"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/eslint.config.js": {
+    "mtime": 1777006580.3274047,
+    "hash": "0355276bc79439afe3c53e3a2470ca1e"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/postcss.config.js": {
+    "mtime": 1777556235.208091,
+    "hash": "c1ee9ce6a4fe04105dbf8e619390df5e"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/main.tsx": {
+    "mtime": 1777006580.3283913,
+    "hash": "787e5a07efeb2bf6209d5937195f2f68"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/App.tsx": {
+    "mtime": 1780556579.0040543,
+    "hash": "fe57fc182e329b8eeddf3e67a252068d"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/services/profileService.ts": {
+    "mtime": 1780516762.288785,
+    "hash": "3389cc895f19044e357ba5bda8d57973"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/services/agendaService.ts": {
+    "mtime": 1780513431.5585735,
+    "hash": "59c32aba3ab5ecaa317999a643511b1a"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/utils/configMockData.ts": {
+    "mtime": 1780514732.8747904,
+    "hash": "f7038f9d0408c2eb08a85ab1a56dc1be"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/utils/cn.ts": {
+    "mtime": 1777556235.2087433,
+    "hash": "a40ab276f43a0e0a273926a9fa5055cc"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/utils/mockData.ts": {
+    "mtime": 1779258028.154065,
+    "hash": "e483b5c4b5e1eaed8696fca521eebca9"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/utils/agendaMockData.ts": {
+    "mtime": 1780513296.0554516,
+    "hash": "be6622ac86b9be56576537521c127e1d"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/pages/RegisterClinicPage.tsx": {
+    "mtime": 1780555047.946384,
+    "hash": "1f163257cc8e173ceb15dbd584fe01c2"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/pages/ProfessionalPage.tsx": {
+    "mtime": 1780558877.8803263,
+    "hash": "7f80773124de1d7b072a61065cdb7796"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/pages/LoginPage.tsx": {
+    "mtime": 1780556028.7950854,
+    "hash": "ef517932edbfd84f81998d3c5cf67eba"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/pages/SearchPage.tsx": {
+    "mtime": 1780511918.895956,
+    "hash": "67c8fd96d328f787fc86e68be944d5b8"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/pages/ProfilePage.tsx": {
+    "mtime": 1780511732.9281263,
+    "hash": "2b818aed398a6f29a1d9551a96945650"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/pages/RegisterPage.tsx": {
+    "mtime": 1780555398.1860616,
+    "hash": "e008d8a112cade41f9522bf36846a20f"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/pages/RegisterPatientPage.tsx": {
+    "mtime": 1780554867.9573662,
+    "hash": "bb4e407b6eb6c12a1496a2f1637283bb"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/pages/RegisterDoctorPage.tsx": {
+    "mtime": 1780554934.9016678,
+    "hash": "f1b702c8d81f042249fd4540a10597d9"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/pages/HomePage.tsx": {
+    "mtime": 1780511067.6140082,
+    "hash": "5431c0beba83e1a91cfd39993066238c"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/pages/professional/AgendaPage.tsx": {
+    "mtime": 1780513390.986655,
+    "hash": "aa7eaa5a51bd061d7aeafd5693e5f329"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/pages/professional/PublicProfilePage.tsx": {
+    "mtime": 1780516710.29505,
+    "hash": "02113e76f0c0b33ff48b385a46ef9328"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/pages/professional/ConfigPage.tsx": {
+    "mtime": 1780514842.2214348,
+    "hash": "cfefc847edee23594262efc4d08ea1a7"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/cards/AccountTypeCard.tsx": {
+    "mtime": 1780554640.3367083,
+    "hash": "db9c336d464d37e99563f3319b2abb48"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/cards/SearchResultCard.tsx": {
+    "mtime": 1780511006.8038542,
+    "hash": "ccf1a446c27f2865ea551324ed0512c8"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/cards/AvailabilityPreview.tsx": {
+    "mtime": 1779258028.1520424,
+    "hash": "1e40e2d02e0fa418a676a170cdb18f36"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/professional/Sidebar.tsx": {
+    "mtime": 1780558887.5941646,
+    "hash": "3b23728cb74c1da46357f457ce145295"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/professional/AppointmentList.tsx": {
+    "mtime": 1779258028.1525493,
+    "hash": "036651df32c037bfca7418bb165c4b40"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/professional/Topbar.tsx": {
+    "mtime": 1780558902.8466928,
+    "hash": "54c61e87fb0d5dde5fe4d0512e098c98"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/professional/CalendarView.tsx": {
+    "mtime": 1779258028.1526248,
+    "hash": "520fde2401f374b3cbe66fb200a192bc"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/professional/agenda/MiniCalendar.tsx": {
+    "mtime": 1780513351.6525028,
+    "hash": "2fc0f0c0a4f919264507cf9d80f23cb5"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/professional/agenda/CalendarGrid.tsx": {
+    "mtime": 1780513351.6535027,
+    "hash": "db6ebcdf65799349a83bde556d26bfa3"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/professional/agenda/PendingRequestsDrawer.tsx": {
+    "mtime": 1780513390.985655,
+    "hash": "01101e225931e7074eecb188d6987be2"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/professional/agenda/RescheduleModal.tsx": {
+    "mtime": 1780513390.985655,
+    "hash": "cadc4da6d096d682f96fb4999cbea111"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/professional/agenda/AppointmentDetailPanel.tsx": {
+    "mtime": 1780513431.5585735,
+    "hash": "7b4b72391065662f9b50746018e01516"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/professional/agenda/AgendaFilterPanel.tsx": {
+    "mtime": 1780513431.5585735,
+    "hash": "a34cd593f3f4689210e73ddd82b27ca6"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/professional/agenda/AppointmentBlock.tsx": {
+    "mtime": 1780513431.5585735,
+    "hash": "e03cfef967164d7344390a0a767dffe4"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/professional/agenda/DailyCalendar.tsx": {
+    "mtime": 1780512796.3389916,
+    "hash": "ce2cd53f95d0e4779af204a4eceec158"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/professional/profile/ProfileIdentityForm.tsx": {
+    "mtime": 1780516680.5338733,
+    "hash": "4dc992ae3d5114532a20bd4682039940"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/professional/profile/ProfileImageUploader.tsx": {
+    "mtime": 1780516762.288785,
+    "hash": "accdc52ceba1ae1e57654fcc0e809f61"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/professional/profile/EducationSection.tsx": {
+    "mtime": 1780520367.3435254,
+    "hash": "edde9b0aac31411602371488c03ab621"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/professional/profile/ProfileContactForm.tsx": {
+    "mtime": 1780516680.5338733,
+    "hash": "500ccfede4d9e55b8a997e8f1ec70bec"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/professional/profile/ExperienceSection.tsx": {
+    "mtime": 1780520367.3435254,
+    "hash": "830abe6709e059d986021b166b047ff3"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/professional/config/SystemStates.tsx": {
+    "mtime": 1780514732.8747904,
+    "hash": "e83bdbe9b84fa02ca153e5ee4cdc66a7"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/professional/config/tabs/RemindersTab.tsx": {
+    "mtime": 1780514842.2214348,
+    "hash": "c8a4f24170052d00ddf735401a1b46f8"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/professional/config/tabs/AppointmentRulesTab.tsx": {
+    "mtime": 1780514799.7121878,
+    "hash": "a8e812b82b9cdf2622794846db6e58b5"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/professional/config/tabs/WeeklyScheduleTab.tsx": {
+    "mtime": 1780514842.2214348,
+    "hash": "b51514237b5a27d16c3fe11256c080bb"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/professional/config/tabs/ServicesPricesTab.tsx": {
+    "mtime": 1780515135.4250495,
+    "hash": "3f72105af97c87653fc610956e44f21a"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/professional/config/tabs/AvailabilityBlocksTab.tsx": {
+    "mtime": 1780515107.1978998,
+    "hash": "f0177a07283acaf93821fee61e8d13d1"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/professional/config/tabs/PendingRequestsTab.tsx": {
+    "mtime": 1780515185.652314,
+    "hash": "5767a5b59bae6410752a0a63b6708063"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/ui/Button.tsx": {
+    "mtime": 1777556235.2083294,
+    "hash": "6a2ec2c1d65c96aca6fd4d18f691eff8"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/ui/Input.tsx": {
+    "mtime": 1777556235.2083623,
+    "hash": "a20591b225bcf18e08107477a8a6ab16"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/map/SearchMap.tsx": {
+    "mtime": 1780511945.863491,
+    "hash": "bc725b3386188334d9137cff35208022"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/forms/RegisterClinicForm.tsx": {
+    "mtime": 1780555047.9466174,
+    "hash": "8f86039d551354037ca4389072965ae8"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/forms/RegisterPatientForm.tsx": {
+    "mtime": 1780554867.9573662,
+    "hash": "72c3241ef79c06345493526af9d675cf"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/forms/RegisterDoctorForm.tsx": {
+    "mtime": 1780555047.946384,
+    "hash": "0fe699ba440f8eb942a751eb7c3dd450"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/profile/MoreInfoModal.tsx": {
+    "mtime": 1779258028.1529047,
+    "hash": "8e15aacc5e978278fd51bc0185b735fb"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/profile/GalleryGrid.tsx": {
+    "mtime": 1780511684.7650168,
+    "hash": "3b0d0d4e0278cd2feb3f27f152a97c79"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/profile/ReviewsSection.tsx": {
+    "mtime": 1780511703.1792467,
+    "hash": "0facfc7a2bb97f5befafd3772985e6cc"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/profile/ServicesPricingCard.tsx": {
+    "mtime": 1780511604.7280748,
+    "hash": "d0c3e6ce64ae28633b4631f8c0b05125"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/profile/CareLocationsTabs.tsx": {
+    "mtime": 1780511676.6953619,
+    "hash": "37e4c8ad42ad6fa96f9243295981072f"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/profile/DoctorExperienceCard.tsx": {
+    "mtime": 1780511267.927514,
+    "hash": "7ce087a94d5e11ccef3e8da0cf1adb46"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/profile/DoctorAvailabilityPanel.tsx": {
+    "mtime": 1780511637.4135468,
+    "hash": "37de84b89791fd1e03951805db69777a"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/profile/ProfileHero.tsx": {
+    "mtime": 1780511255.2874823,
+    "hash": "a77b03dfdd03c8b6653b6e4ec36e1861"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/components/layout/Navbar.tsx": {
+    "mtime": 1780513266.8144255,
+    "hash": "684f8c01ac781aba08577128ac1e8fe2"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/types/doctor.ts": {
+    "mtime": 1779258028.1539948,
+    "hash": "f36baa74f29268645b6b9e3763d23dc6"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/types/profile.ts": {
+    "mtime": 1780516641.7724977,
+    "hash": "23f5c1384b9a3f1abd62fee2f0245852"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/types/clinic.ts": {
+    "mtime": 1779258028.1539457,
+    "hash": "372e64a41db1520e7a5ea43bb9c7db5d"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/store/locationStore.ts": {
+    "mtime": 1779258028.1538517,
+    "hash": "402d75b8eca0fdcc2960bdd48d0b771a"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/store/profileStore.ts": {
+    "mtime": 1780516641.7724977,
+    "hash": "8b19f749028a06846f21d86a5d806e02"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/store/agendaStore.ts": {
+    "mtime": 1780515239.8858697,
+    "hash": "68c52abc830249794055cd03a2918a33"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/store/selectedProfileStore.ts": {
+    "mtime": 1779258028.1538517,
+    "hash": "044b7f94e6ea079f11ad350fc693bc5c"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/store/configStore.ts": {
+    "mtime": 1780515044.9485657,
+    "hash": "28ff94c8c7b711c383ab03f9931735c6"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/store/authStore.ts": {
+    "mtime": 1780555917.2632358,
+    "hash": "1ff902d21beccda54c44c61adf4dbff4"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/README.md": {
+    "mtime": 1777006580.3272502,
+    "hash": "f6e3faf55d738cf2affe1b44195f27cf"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/index.html": {
+    "mtime": 1777006580.3274047,
+    "hash": "cd07c9e858a1633a1d183e086c50463b"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/AI_LOG.md": {
+    "mtime": 1780558915.6207576,
+    "hash": "525b93f755b8e2c7fc15dcc4fb03d469"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/docker-compose.yml": {
+    "mtime": 1779258028.1158547,
+    "hash": "9dd3be4af34b7bc2f36deb78029b28f4"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/public/favicon.svg": {
+    "mtime": 1777006580.3276103,
+    "hash": "7e840862161341271697daa99a40d76b"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/public/icons.svg": {
+    "mtime": 1777006580.327665,
+    "hash": "3b4fcfcf393eca4d264dca4a4663bc37"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/assets/logo_pro.png": {
+    "mtime": 1780558820.2548902,
+    "hash": "92dcb6bceaa34d67fe5efabda34c9e38"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/assets/vite.svg": {
+    "mtime": 1777006580.3283086,
+    "hash": "9960a24288958394ac50e57ff638b036"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/assets/homePageOnBackground.png": {
+    "mtime": 1779258028.151525,
+    "hash": "7ae0a1144892bc63f4a44898c4b6abb1"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/assets/hero.png": {
+    "mtime": 1777006580.3282082,
+    "hash": "aead493361b27e7510691c5d7072dfc1"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/assets/doctor.png": {
+    "mtime": 1779258028.1184278,
+    "hash": "ad671d3e59a0a73f4e59a13adf24e494"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/assets/medifind_logo.png": {
+    "mtime": 1780558274.3776906,
+    "hash": "a42026952ad15d52fa177a061c2a6fff"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/assets/homepage.png": {
+    "mtime": 1779258028.1519,
+    "hash": "dfe8f3482e4c6ec4bf12227368e96576"
+  },
+  "/home/baxava/Documents/UAM 2026/emprendedores/MEDIFIND/mediFRONT/mediFRONT/src/assets/react.svg": {
+    "mtime": 1777006580.3282633,
+    "hash": "f0402b67b6ce880f65666bb49e841696"
+  }
+}

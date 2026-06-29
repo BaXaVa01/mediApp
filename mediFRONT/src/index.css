@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+:root {
+  --oat-cream: #FDF9F3;
+  --navy-warm: #1C365C;
+  --sky-soft: #5A9BD4;
+  --moss-green: #A3C9A8;
+  --terracota: #E6CBB8;
+}
+
+body {
+  @apply bg-[var(--oat-cream)] text-[var(--navy-warm)] font-sans antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @apply font-bold text-[var(--navy-warm)];
+}
+
+.btn-primary {
+  @apply bg-[var(--sky-soft)] text-white px-4 py-2 rounded transition-colors hover:bg-[#4a8bc4];
+}

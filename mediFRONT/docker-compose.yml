@@ -1,0 +1,7 @@
+services:
+  web:
+    build: .
+    container_name: mi-web
+    restart: unless-stopped
+    ports:
+      - "3000:80"

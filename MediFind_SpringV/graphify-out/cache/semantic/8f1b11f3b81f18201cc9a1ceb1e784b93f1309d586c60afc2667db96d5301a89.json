@@ -1,0 +1,1 @@
+{"nodes": [{"id": "pedido_pedidohtml", "label": "pedido.html", "file_type": "document", "source_file": "src/main/resources/templates/pedido.html"}], "edges": [{"source": "pedido_pedidohtml", "target": "app_appjs", "relation": "references", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "src/main/resources/templates/pedido.html"}], "hyperedges": []}

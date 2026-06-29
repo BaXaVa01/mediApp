@@ -1,0 +1,395 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {
+    "hyperedges": [
+      {
+        "id": "thymeleaf_templates",
+        "label": "Thymeleaf HTML Templates",
+        "nodes": [
+          "index_indexhtml",
+          "catalogo_catalogohtml",
+          "detalle_detallehtml",
+          "pedido_pedidohtml",
+          "pedidoexitoso_pedidoexitosohtml"
+        ],
+        "relation": "participate_in",
+        "confidence": "EXTRACTED",
+        "confidence_score": 1.0,
+        "source_file": "src/main/resources/templates/index.html"
+      }
+    ]
+  },
+  "nodes": [
+    {
+      "label": "settings.gradle",
+      "file_type": "code",
+      "source_file": "settings.gradle",
+      "source_location": "L1",
+      "id": "settings_gradle",
+      "community": 5,
+      "norm_label": "settings.gradle"
+    },
+    {
+      "label": "build.gradle",
+      "file_type": "code",
+      "source_file": "build.gradle",
+      "source_location": "L1",
+      "id": "build_gradle",
+      "community": 6,
+      "norm_label": "build.gradle"
+    },
+    {
+      "label": "MediFindSpringVApplicationTests.java",
+      "file_type": "code",
+      "source_file": "src/test/java/com/example/medifind_springv/MediFindSpringVApplicationTests.java",
+      "source_location": "L1",
+      "id": "src_test_java_com_example_medifind_springv_medifindspringvapplicationtests_java",
+      "community": 1,
+      "norm_label": "medifindspringvapplicationtests.java"
+    },
+    {
+      "label": "MediFindSpringVApplicationTests",
+      "file_type": "code",
+      "source_file": "src/test/java/com/example/medifind_springv/MediFindSpringVApplicationTests.java",
+      "source_location": "L6",
+      "id": "medifind_springv_medifindspringvapplicationtests_medifindspringvapplicationtests",
+      "community": 1,
+      "norm_label": "medifindspringvapplicationtests"
+    },
+    {
+      "label": ".contextLoads()",
+      "file_type": "code",
+      "source_file": "src/test/java/com/example/medifind_springv/MediFindSpringVApplicationTests.java",
+      "source_location": "L9",
+      "id": "medifind_springv_medifindspringvapplicationtests_medifindspringvapplicationtests_contextloads",
+      "community": 1,
+      "norm_label": ".contextloads()"
+    },
+    {
+      "label": "MediFindSpringVApplication.java",
+      "file_type": "code",
+      "source_file": "src/main/java/com/example/medifind_springv/MediFindSpringVApplication.java",
+      "source_location": "L1",
+      "id": "src_main_java_com_example_medifind_springv_medifindspringvapplication_java",
+      "community": 2,
+      "norm_label": "medifindspringvapplication.java"
+    },
+    {
+      "label": "MediFindSpringVApplication",
+      "file_type": "code",
+      "source_file": "src/main/java/com/example/medifind_springv/MediFindSpringVApplication.java",
+      "source_location": "L6",
+      "id": "medifind_springv_medifindspringvapplication_medifindspringvapplication",
+      "community": 2,
+      "norm_label": "medifindspringvapplication"
+    },
+    {
+      "label": ".main()",
+      "file_type": "code",
+      "source_file": "src/main/java/com/example/medifind_springv/MediFindSpringVApplication.java",
+      "source_location": "L9",
+      "id": "medifind_springv_medifindspringvapplication_medifindspringvapplication_main",
+      "community": 2,
+      "norm_label": ".main()"
+    },
+    {
+      "label": "TiendaWebExpressApplication.java",
+      "file_type": "code",
+      "source_file": "src/main/java/com/example/tienda_web_express/TiendaWebExpressApplication.java",
+      "source_location": "L1",
+      "id": "src_main_java_com_example_tienda_web_express_tiendawebexpressapplication_java",
+      "community": 3,
+      "norm_label": "tiendawebexpressapplication.java"
+    },
+    {
+      "label": "TiendaWebExpressApplication",
+      "file_type": "code",
+      "source_file": "src/main/java/com/example/tienda_web_express/TiendaWebExpressApplication.java",
+      "source_location": "L6",
+      "id": "tienda_web_express_tiendawebexpressapplication_tiendawebexpressapplication",
+      "community": 3,
+      "norm_label": "tiendawebexpressapplication"
+    },
+    {
+      "label": ".main()",
+      "file_type": "code",
+      "source_file": "src/main/java/com/example/tienda_web_express/TiendaWebExpressApplication.java",
+      "source_location": "L9",
+      "id": "tienda_web_express_tiendawebexpressapplication_tiendawebexpressapplication_main",
+      "community": 3,
+      "norm_label": ".main()"
+    },
+    {
+      "label": "app.js",
+      "file_type": "code",
+      "source_file": "src/main/resources/static/js/app.js",
+      "source_location": "L1",
+      "id": "src_main_resources_static_js_app_js",
+      "community": 7,
+      "norm_label": "app.js"
+    },
+    {
+      "label": "MediFindSpringVApplication",
+      "file_type": "code",
+      "source_file": "src/main/java/com/example/medifind_springv/MediFindSpringVApplication.java",
+      "id": "medifindspringvapplication_medifindspringvapplication",
+      "community": 4,
+      "norm_label": "medifindspringvapplication"
+    },
+    {
+      "label": "TiendaWebExpressApplication",
+      "file_type": "code",
+      "source_file": "src/main/java/com/example/tienda_web_express/TiendaWebExpressApplication.java",
+      "id": "tiendawebexpressapplication_tiendawebexpressapplication",
+      "community": 4,
+      "norm_label": "tiendawebexpressapplication"
+    },
+    {
+      "label": "MediFindSpringVApplicationTests",
+      "file_type": "code",
+      "source_file": "src/test/java/com/example/medifind_springv/MediFindSpringVApplicationTests.java",
+      "id": "medifindspringvapplicationtests_medifindspringvapplicationtests",
+      "community": 4,
+      "norm_label": "medifindspringvapplicationtests"
+    },
+    {
+      "label": "import.sql",
+      "file_type": "code",
+      "source_file": "src/main/resources/import.sql",
+      "id": "import_importsql",
+      "community": 8,
+      "norm_label": "import.sql"
+    },
+    {
+      "label": "app.js",
+      "file_type": "code",
+      "source_file": "src/main/resources/static/js/app.js",
+      "id": "app_appjs",
+      "community": 0,
+      "norm_label": "app.js"
+    },
+    {
+      "label": "HELP.md",
+      "file_type": "document",
+      "source_file": "HELP.md",
+      "id": "help_md",
+      "community": 9,
+      "norm_label": "help.md"
+    },
+    {
+      "label": "index.html",
+      "file_type": "document",
+      "source_file": "src/main/resources/templates/index.html",
+      "id": "index_indexhtml",
+      "community": 0,
+      "norm_label": "index.html"
+    },
+    {
+      "label": "catalogo.html",
+      "file_type": "document",
+      "source_file": "src/main/resources/templates/catalogo.html",
+      "id": "catalogo_catalogohtml",
+      "community": 0,
+      "norm_label": "catalogo.html"
+    },
+    {
+      "label": "detalle.html",
+      "file_type": "document",
+      "source_file": "src/main/resources/templates/detalle.html",
+      "id": "detalle_detallehtml",
+      "community": 0,
+      "norm_label": "detalle.html"
+    },
+    {
+      "label": "pedido.html",
+      "file_type": "document",
+      "source_file": "src/main/resources/templates/pedido.html",
+      "id": "pedido_pedidohtml",
+      "community": 0,
+      "norm_label": "pedido.html"
+    },
+    {
+      "label": "pedido-exitoso.html",
+      "file_type": "document",
+      "source_file": "src/main/resources/templates/pedido-exitoso.html",
+      "id": "pedidoexitoso_pedidoexitosohtml",
+      "community": 0,
+      "norm_label": "pedido-exitoso.html"
+    },
+    {
+      "label": "White Cotton T-Shirt Product Image",
+      "file_type": "image",
+      "source_file": "src/main/resources/static/img/camiseta.jpg",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "camiseta_image",
+      "community": 10,
+      "norm_label": "white cotton t-shirt product image"
+    },
+    {
+      "label": "Logitech MX Master Mouse",
+      "file_type": "image",
+      "source_file": "src/main/resources/static/img/mouse.jpg",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "mouse_logitech_mx_master",
+      "community": 11,
+      "norm_label": "logitech mx master mouse"
+    },
+    {
+      "label": "Aegis Backpack Image",
+      "file_type": "image",
+      "source_file": "src/main/resources/static/img/mochila.jpg",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "mochila_backpack",
+      "community": 12,
+      "norm_label": "aegis backpack image"
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/test/java/com/example/medifind_springv/MediFindSpringVApplicationTests.java",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "src_test_java_com_example_medifind_springv_medifindspringvapplicationtests_java",
+      "target": "medifind_springv_medifindspringvapplicationtests_medifindspringvapplicationtests",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/test/java/com/example/medifind_springv/MediFindSpringVApplicationTests.java",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "medifind_springv_medifindspringvapplicationtests_medifindspringvapplicationtests",
+      "target": "medifind_springv_medifindspringvapplicationtests_medifindspringvapplicationtests_contextloads",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main/java/com/example/medifind_springv/MediFindSpringVApplication.java",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "src_main_java_com_example_medifind_springv_medifindspringvapplication_java",
+      "target": "medifind_springv_medifindspringvapplication_medifindspringvapplication",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main/java/com/example/medifind_springv/MediFindSpringVApplication.java",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "medifind_springv_medifindspringvapplication_medifindspringvapplication",
+      "target": "medifind_springv_medifindspringvapplication_medifindspringvapplication_main",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main/java/com/example/tienda_web_express/TiendaWebExpressApplication.java",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "src_main_java_com_example_tienda_web_express_tiendawebexpressapplication_java",
+      "target": "tienda_web_express_tiendawebexpressapplication_tiendawebexpressapplication",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main/java/com/example/tienda_web_express/TiendaWebExpressApplication.java",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "tienda_web_express_tiendawebexpressapplication_tiendawebexpressapplication",
+      "target": "tienda_web_express_tiendawebexpressapplication_tiendawebexpressapplication_main",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "src/test/java/com/example/medifind_springv/MediFindSpringVApplicationTests.java",
+      "source": "medifindspringvapplicationtests_medifindspringvapplicationtests",
+      "target": "medifindspringvapplication_medifindspringvapplication"
+    },
+    {
+      "relation": "semantically_similar_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "src/main/java/com/example/medifind_springv/MediFindSpringVApplication.java",
+      "source": "medifindspringvapplication_medifindspringvapplication",
+      "target": "tiendawebexpressapplication_tiendawebexpressapplication"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/main/resources/templates/index.html",
+      "source": "index_indexhtml",
+      "target": "app_appjs"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/main/resources/templates/catalogo.html",
+      "source": "catalogo_catalogohtml",
+      "target": "app_appjs"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/main/resources/templates/detalle.html",
+      "source": "detalle_detallehtml",
+      "target": "app_appjs"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/main/resources/templates/pedido.html",
+      "source": "pedido_pedidohtml",
+      "target": "app_appjs"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/main/resources/templates/pedido-exitoso.html",
+      "source": "pedidoexitoso_pedidoexitosohtml",
+      "target": "app_appjs"
+    }
+  ],
+  "hyperedges": [
+    {
+      "id": "thymeleaf_templates",
+      "label": "Thymeleaf HTML Templates",
+      "nodes": [
+        "index_indexhtml",
+        "catalogo_catalogohtml",
+        "detalle_detallehtml",
+        "pedido_pedidohtml",
+        "pedidoexitoso_pedidoexitosohtml"
+      ],
+      "relation": "participate_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/main/resources/templates/index.html"
+    }
+  ]
+}
