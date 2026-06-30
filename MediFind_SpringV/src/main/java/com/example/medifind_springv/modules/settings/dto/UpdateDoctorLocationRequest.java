@@ -1,40 +1,55 @@
-package com.example.medifind_springv.modules.profile.dto;
+package com.example.medifind_springv.modules.settings.dto;
 
-public class DoctorLocationDTO {
-    private String id;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
+public class UpdateDoctorLocationRequest {
+
+    @NotBlank(message = "El doctorId es obligatorio")
+    private String doctorId;
+
+    @NotBlank(message = "El nombre del lugar es obligatorio.")
+    @Size(max = 150, message = "El nombre del lugar no puede superar los 150 caracteres.")
     private String name;
-    private String type;
+
     private String address;
+
+    @Size(max = 100, message = "La ciudad no puede superar los 100 caracteres.")
     private String city;
+
     private Double latitude;
     private Double longitude;
-    private String clinicId;
-    private String clinicName;
+
+    @NotBlank(message = "El tipo de lugar de atención es obligatorio.")
+    private String type;
+
+    @NotNull(message = "La marca de principal es obligatoria.")
     private Boolean isMain;
+
+    @NotNull(message = "El estado activo es obligatorio.")
     private Boolean active;
 
-    public DoctorLocationDTO() {}
+    public UpdateDoctorLocationRequest() {}
 
-    public DoctorLocationDTO(String id, String name, String type, String address, String city, Double latitude, Double longitude, String clinicId, String clinicName, Boolean isMain, Boolean active) {
-        this.id = id;
+    public UpdateDoctorLocationRequest(String doctorId, String name, String address, String city, Double latitude, Double longitude, String type, Boolean isMain, Boolean active) {
+        this.doctorId = doctorId;
         this.name = name;
-        this.type = type;
         this.address = address;
         this.city = city;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.clinicId = clinicId;
-        this.clinicName = clinicName;
+        this.type = type;
         this.isMain = isMain;
         this.active = active;
     }
 
-    public String getId() {
-        return id;
+    public String getDoctorId() {
+        return doctorId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setDoctorId(String doctorId) {
+        this.doctorId = doctorId;
     }
 
     public String getName() {
@@ -43,14 +58,6 @@ public class DoctorLocationDTO {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getAddress() {
@@ -85,20 +92,12 @@ public class DoctorLocationDTO {
         this.longitude = longitude;
     }
 
-    public String getClinicId() {
-        return clinicId;
+    public String getType() {
+        return type;
     }
 
-    public void setClinicId(String clinicId) {
-        this.clinicId = clinicId;
-    }
-
-    public String getClinicName() {
-        return clinicName;
-    }
-
-    public void setClinicName(String clinicName) {
-        this.clinicName = clinicName;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Boolean getIsMain() {

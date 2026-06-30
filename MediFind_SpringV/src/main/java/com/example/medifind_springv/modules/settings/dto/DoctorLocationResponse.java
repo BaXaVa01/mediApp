@@ -1,28 +1,30 @@
-package com.example.medifind_springv.modules.profile.dto;
+package com.example.medifind_springv.modules.settings.dto;
 
-public class DoctorLocationDTO {
+public class DoctorLocationResponse {
     private String id;
+    private String doctorId;
     private String name;
-    private String type;
     private String address;
     private String city;
     private Double latitude;
     private Double longitude;
+    private String type;
     private String clinicId;
     private String clinicName;
     private Boolean isMain;
     private Boolean active;
 
-    public DoctorLocationDTO() {}
+    public DoctorLocationResponse() {}
 
-    public DoctorLocationDTO(String id, String name, String type, String address, String city, Double latitude, Double longitude, String clinicId, String clinicName, Boolean isMain, Boolean active) {
+    public DoctorLocationResponse(String id, String doctorId, String name, String address, String city, Double latitude, Double longitude, String type, String clinicId, String clinicName, Boolean isMain, Boolean active) {
         this.id = id;
+        this.doctorId = doctorId;
         this.name = name;
-        this.type = type;
         this.address = address;
         this.city = city;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.type = type;
         this.clinicId = clinicId;
         this.clinicName = clinicName;
         this.isMain = isMain;
@@ -37,20 +39,20 @@ public class DoctorLocationDTO {
         this.id = id;
     }
 
+    public String getDoctorId() {
+        return doctorId;
+    }
+
+    public void setDoctorId(String doctorId) {
+        this.doctorId = doctorId;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getAddress() {
@@ -83,6 +85,14 @@ public class DoctorLocationDTO {
 
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getClinicId() {

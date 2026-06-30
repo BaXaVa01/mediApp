@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,6 +32,8 @@ public class DoctorLocationRepository {
                 "CAST(la.tipo_lugar AS TEXT) AS type, " +
                 "COALESCE(NULLIF(la.direccion, ''), c.direccion, '') AS address, " +
                 "COALESCE(NULLIF(la.ciudad, ''), c.ciudad, '') AS city, " +
+                "la.latitud, " +
+                "la.longitud, " +
                 "la.clinica_id, " +
                 "c.nombre AS clinic_name, " +
                 "la.es_principal, " +
@@ -52,12 +55,19 @@ public class DoctorLocationRepository {
                 clinicName = "";
             }
 
+            BigDecimal latVal = rs.getBigDecimal("latitud");
+            BigDecimal lngVal = rs.getBigDecimal("longitud");
+            Double latitude = latVal != null ? latVal.doubleValue() : null;
+            Double longitude = lngVal != null ? lngVal.doubleValue() : null;
+
             return new DoctorLocationDTO(
                     idUUID != null ? idUUID.toString() : null,
                     rs.getString("name"),
-                    rs.getString("type"),
+                    rs.getString("type") != null ? rs.getString("type").toUpperCase() : "",
                     rs.getString("address"),
                     rs.getString("city"),
+                    latitude,
+                    longitude,
                     clinicIdUUID != null ? clinicIdUUID.toString() : null,
                     clinicName,
                     rs.getBoolean("es_principal"),
