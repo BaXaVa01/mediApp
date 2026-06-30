@@ -59,10 +59,13 @@ public class GlobalExceptionHandler {
         });
 
         String message = "Datos de registro inválidos.";
-        if (ex.getBindingResult().getObjectName().contains("CreateAppointmentRequest")) {
+        String objName = ex.getBindingResult().getObjectName().toLowerCase();
+        if (objName.contains("createappointmentrequest")) {
             message = "Datos inválidos para reservar la cita.";
-        } else if (ex.getBindingResult().getObjectName().contains("LoginRequest")) {
+        } else if (objName.contains("loginrequest")) {
             message = "Datos de login inválidos.";
+        } else if (objName.contains("identity") || objName.contains("visibility") || objName.contains("education") || objName.contains("experience")) {
+            message = "Datos inválidos.";
         }
 
         ApiErrorResponse response = new ApiErrorResponse(
@@ -127,5 +130,50 @@ public class GlobalExceptionHandler {
                 ex.getMessage()
         );
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+    }
+
+    @ExceptionHandler(com.example.medifind_springv.modules.profile.exception.EducationNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handleEducationNotFound(
+            com.example.medifind_springv.modules.profile.exception.EducationNotFoundException ex) {
+        ApiErrorResponse response = new ApiErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                "EDUCATION_NOT_FOUND",
+                ex.getMessage()
+        );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(com.example.medifind_springv.modules.profile.exception.ExperienceNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handleExperienceNotFound(
+            com.example.medifind_springv.modules.profile.exception.ExperienceNotFoundException ex) {
+        ApiErrorResponse response = new ApiErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                "EXPERIENCE_NOT_FOUND",
+                ex.getMessage()
+        );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(com.example.medifind_springv.modules.profile.exception.InvalidProfileRequestException.class)
+    public ResponseEntity<ApiErrorResponse> handleInvalidProfileRequest(
+            com.example.medifind_springv.modules.profile.exception.InvalidProfileRequestException ex) {
+        ApiErrorResponse response = new ApiErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                ex.getError(),
+                ex.getMessage()
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(com.example.medifind_springv.modules.profile.exception.ProfileValidationException.class)
+    public ResponseEntity<ApiErrorResponse> handleProfileValidation(
+            com.example.medifind_springv.modules.profile.exception.ProfileValidationException ex) {
+        ApiErrorResponse response = new ApiErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                "VALIDATION_ERROR",
+                ex.getMessage(),
+                ex.getFields()
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 }
