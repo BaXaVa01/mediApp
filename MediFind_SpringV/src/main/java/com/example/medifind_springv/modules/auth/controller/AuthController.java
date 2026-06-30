@@ -1,5 +1,7 @@
 package com.example.medifind_springv.modules.auth.controller;
 
+import com.example.medifind_springv.modules.auth.dto.LoginRequest;
+import com.example.medifind_springv.modules.auth.dto.LoginResponse;
 import com.example.medifind_springv.modules.auth.dto.RegisterUserRequest;
 import com.example.medifind_springv.modules.auth.dto.RegisterUserResponse;
 import com.example.medifind_springv.modules.auth.service.AuthService;
@@ -23,5 +25,11 @@ public class AuthController {
     public ResponseEntity<RegisterUserResponse> registerUser(@Valid @RequestBody RegisterUserRequest request) {
         RegisterUserResponse response = authService.registerUser(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> loginUser(@Valid @RequestBody LoginRequest request) {
+        LoginResponse response = authService.login(request);
+        return ResponseEntity.ok(response);
     }
 }

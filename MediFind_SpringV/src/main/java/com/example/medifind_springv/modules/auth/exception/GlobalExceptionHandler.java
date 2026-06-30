@@ -58,12 +58,74 @@ public class GlobalExceptionHandler {
             }
         });
 
+        String message = "Datos de registro inválidos.";
+        if (ex.getBindingResult().getObjectName().contains("CreateAppointmentRequest")) {
+            message = "Datos inválidos para reservar la cita.";
+        } else if (ex.getBindingResult().getObjectName().contains("LoginRequest")) {
+            message = "Datos de login inválidos.";
+        }
+
         ApiErrorResponse response = new ApiErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
                 "VALIDATION_ERROR",
-                "Datos de registro inválidos.",
+                message,
                 fields
         );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(com.example.medifind_springv.modules.appointments.exception.AppointmentException.class)
+    public ResponseEntity<ApiErrorResponse> handleAppointmentException(
+            com.example.medifind_springv.modules.appointments.exception.AppointmentException ex) {
+        ApiErrorResponse response = new ApiErrorResponse(
+                ex.getStatus().value(),
+                ex.getError(),
+                ex.getMessage()
+        );
+        return ResponseEntity.status(ex.getStatus()).body(response);
+    }
+
+    @ExceptionHandler(com.example.medifind_springv.modules.profile.exception.DoctorNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handleDoctorNotFound(
+            com.example.medifind_springv.modules.profile.exception.DoctorNotFoundException ex) {
+        ApiErrorResponse response = new ApiErrorResponse(
+                org.springframework.http.HttpStatus.NOT_FOUND.value(),
+                "DOCTOR_NOT_FOUND",
+                ex.getMessage()
+        );
+        return ResponseEntity.status(org.springframework.http.HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(com.example.medifind_springv.modules.profile.exception.InvalidDoctorIdException.class)
+    public ResponseEntity<ApiErrorResponse> handleInvalidDoctorId(
+            com.example.medifind_springv.modules.profile.exception.InvalidDoctorIdException ex) {
+        ApiErrorResponse response = new ApiErrorResponse(
+                org.springframework.http.HttpStatus.BAD_REQUEST.value(),
+                "INVALID_DOCTOR_ID",
+                ex.getMessage()
+        );
+        return ResponseEntity.status(org.springframework.http.HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(com.example.medifind_springv.modules.auth.exception.InvalidCredentialsException.class)
+    public ResponseEntity<ApiErrorResponse> handleInvalidCredentials(
+            com.example.medifind_springv.modules.auth.exception.InvalidCredentialsException ex) {
+        ApiErrorResponse response = new ApiErrorResponse(
+                HttpStatus.UNAUTHORIZED.value(),
+                "INVALID_CREDENTIALS",
+                ex.getMessage()
+        );
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+    }
+
+    @ExceptionHandler(com.example.medifind_springv.modules.auth.exception.UserInactiveException.class)
+    public ResponseEntity<ApiErrorResponse> handleUserInactive(
+            com.example.medifind_springv.modules.auth.exception.UserInactiveException ex) {
+        ApiErrorResponse response = new ApiErrorResponse(
+                HttpStatus.FORBIDDEN.value(),
+                "USER_INACTIVE",
+                ex.getMessage()
+        );
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
     }
 }

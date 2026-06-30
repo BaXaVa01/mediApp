@@ -124,4 +124,65 @@ public class AuthRepository {
     private String certificationsHelper(String certs) {
         return certs;
     }
+
+    public static class UserRecord {
+        public UUID id;
+        public String nombre;
+        public String email;
+        public String telefono;
+        public String passwordHash;
+        public String rol;
+        public String estado;
+    }
+
+    public static class DoctorRecord {
+        public UUID id;
+        public String nombreProfesional;
+    }
+
+    public UserRecord findUserByEmail(String email) {
+        String sql = "SELECT id, nombre, email, telefono, password_hash, CAST(rol AS TEXT) AS rol, CAST(estado AS TEXT) AS estado " +
+                "FROM usuario WHERE LOWER(email) = LOWER(:email) LIMIT 1";
+        MapSqlParameterSource params = new MapSqlParameterSource("email", email);
+        try {
+            return jdbcTemplate.queryForObject(sql, params, (rs, rowNum) -> {
+                UserRecord u = new UserRecord();
+                u.id = (UUID) rs.getObject("id");
+                u.nombre = rs.getString("nombre");
+                u.email = rs.getString("email");
+                u.telefono = rs.getString("telefono");
+                u.passwordHash = rs.getString("password_hash");
+                u.rol = rs.getString("rol");
+                u.estado = rs.getString("estado");
+                return u;
+            });
+        } catch (org.springframework.dao.EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    public DoctorRecord findDoctorByUserId(UUID userId) {
+        String sql = "SELECT id, nombre_profesional FROM doctor WHERE usuario_id = :userId LIMIT 1";
+        MapSqlParameterSource params = new MapSqlParameterSource("userId", userId);
+        try {
+            return jdbcTemplate.queryForObject(sql, params, (rs, rowNum) -> {
+                DoctorRecord d = new DoctorRecord();
+                d.id = (UUID) rs.getObject("id");
+                d.nombreProfesional = rs.getString("nombre_profesional");
+                return d;
+            });
+        } catch (org.springframework.dao.EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    public UUID findPatientByUserId(UUID userId) {
+        String sql = "SELECT id FROM paciente WHERE usuario_id = :userId LIMIT 1";
+        MapSqlParameterSource params = new MapSqlParameterSource("userId", userId);
+        try {
+            return jdbcTemplate.queryForObject(sql, params, UUID.class);
+        } catch (org.springframework.dao.EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
 }

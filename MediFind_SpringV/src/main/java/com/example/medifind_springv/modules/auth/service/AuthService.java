@@ -202,4 +202,66 @@ public class AuthService {
             return "[]";
         }
     }
+
+    public com.example.medifind_springv.modules.auth.dto.LoginResponse login(com.example.medifind_springv.modules.auth.dto.LoginRequest request) {
+        // 1. Find user by email
+        AuthRepository.UserRecord user = authRepository.findUserByEmail(request.getEmail());
+        if (user == null) {
+            throw new com.example.medifind_springv.modules.auth.exception.InvalidCredentialsException("Correo o contraseña incorrectos.");
+        }
+
+        // 2. Validate password
+        if (!passwordEncoder.matches(request.getPassword(), user.passwordHash)) {
+            throw new com.example.medifind_springv.modules.auth.exception.InvalidCredentialsException("Correo o contraseña incorrectos.");
+        }
+
+        // 3. Validate status is active
+        if (!"activo".equalsIgnoreCase(user.estado)) {
+            throw new com.example.medifind_springv.modules.auth.exception.UserInactiveException("El usuario no está activo.");
+        }
+
+        // 4. Resolve profileId, accountType, role, and defaultRoute
+        String profileId = "";
+        String accountType = "";
+        String role = "";
+        String displayName = user.nombre;
+        String defaultRoute = "/";
+
+        if ("doctor".equalsIgnoreCase(user.rol)) {
+            AuthRepository.DoctorRecord doc = authRepository.findDoctorByUserId(user.id);
+            if (doc == null) {
+                throw new com.example.medifind_springv.modules.auth.exception.InvalidCredentialsException("Perfil de doctor no encontrado.");
+            }
+            profileId = doc.id.toString();
+            accountType = "DOCTOR";
+            role = "DOCTOR";
+            displayName = doc.nombreProfesional;
+            defaultRoute = "/doctor/calendar";
+        } else if ("paciente".equalsIgnoreCase(user.rol)) {
+            UUID patId = authRepository.findPatientByUserId(user.id);
+            if (patId == null) {
+                throw new com.example.medifind_springv.modules.auth.exception.InvalidCredentialsException("Perfil de paciente no encontrado.");
+            }
+            profileId = patId.toString();
+            accountType = "PATIENT";
+            role = "PACIENTE";
+            defaultRoute = "/";
+        } else {
+            role = user.rol.toUpperCase();
+            accountType = user.rol.toUpperCase();
+        }
+
+        return new com.example.medifind_springv.modules.auth.dto.LoginResponse(
+                user.id.toString(),
+                profileId,
+                accountType,
+                role,
+                user.nombre,
+                displayName,
+                user.email,
+                user.telefono,
+                defaultRoute,
+                "Inicio de sesión exitoso"
+        );
+    }
 }
