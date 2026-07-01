@@ -6,6 +6,7 @@ import { ProfileIdentityForm } from '../../components/professional/profile/Profi
 import { ProfileContactForm } from '../../components/professional/profile/ProfileContactForm';
 import { EducationSection } from '../../components/professional/profile/EducationSection';
 import { ExperienceSection } from '../../components/professional/profile/ExperienceSection';
+import { DoctorLocationsSection } from '../../components/professional/profile/DoctorLocationsSection';
 import { ExternalLink } from 'lucide-react';
 
 export default function PublicProfilePage() {
@@ -41,6 +42,7 @@ export default function PublicProfilePage() {
               <div className="grid grid-cols-1 gap-8">
                 <EducationSection />
                 <ExperienceSection />
+                <DoctorLocationsSection />
               </div>
             </div>
           )}

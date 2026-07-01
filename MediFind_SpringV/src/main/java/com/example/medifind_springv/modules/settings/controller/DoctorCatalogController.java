@@ -1,5 +1,6 @@
 package com.example.medifind_springv.modules.settings.controller;
 
+import com.example.medifind_springv.config.AuthenticatedUser;
 import com.example.medifind_springv.modules.settings.dto.*;
 import com.example.medifind_springv.modules.settings.service.DoctorServiceSettingsService;
 import jakarta.validation.Valid;
@@ -13,9 +14,11 @@ import org.springframework.web.bind.annotation.*;
 public class DoctorCatalogController {
 
     private final DoctorServiceSettingsService serviceSettingsService;
+    private final AuthenticatedUser authenticatedUser;
 
-    public DoctorCatalogController(DoctorServiceSettingsService serviceSettingsService) {
+    public DoctorCatalogController(DoctorServiceSettingsService serviceSettingsService, AuthenticatedUser authenticatedUser) {
         this.serviceSettingsService = serviceSettingsService;
+        this.authenticatedUser = authenticatedUser;
     }
 
     @GetMapping
@@ -29,12 +32,14 @@ public class DoctorCatalogController {
     public ResponseEntity<DoctorServiceResponse> getServiceDetail(
             @PathVariable String serviceId,
             @RequestParam String doctorId) {
+        authenticatedUser.verifyDoctorOwnership(doctorId);
         return ResponseEntity.ok(serviceSettingsService.getServiceDetail(doctorId, serviceId));
     }
 
     @PostMapping
     public ResponseEntity<DoctorServiceResponse> createService(
             @Valid @RequestBody CreateDoctorServiceRequest request) {
+        authenticatedUser.verifyDoctorOwnership(request.getDoctorId());
         DoctorServiceResponse response = serviceSettingsService.createService(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -43,6 +48,7 @@ public class DoctorCatalogController {
     public ResponseEntity<DoctorServiceResponse> updateService(
             @PathVariable String serviceId,
             @Valid @RequestBody UpdateDoctorServiceRequest request) {
+        authenticatedUser.verifyDoctorOwnership(request.getDoctorId());
         return ResponseEntity.ok(serviceSettingsService.updateService(serviceId, request));
     }
 
@@ -50,6 +56,7 @@ public class DoctorCatalogController {
     public ResponseEntity<DeleteDoctorServiceResponse> softDeleteService(
             @PathVariable String serviceId,
             @RequestParam String doctorId) {
+        authenticatedUser.verifyDoctorOwnership(doctorId);
         return ResponseEntity.ok(serviceSettingsService.softDeleteService(serviceId, doctorId));
     }
 }

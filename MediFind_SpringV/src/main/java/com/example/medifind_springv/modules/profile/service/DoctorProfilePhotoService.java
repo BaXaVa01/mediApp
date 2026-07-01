@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.FileSystemResource;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -122,7 +124,8 @@ public class DoctorProfilePhotoService {
             }
         }
 
-        return new DoctorProfilePhotoResponse(doctorIdStr, publicPhotoUrl, "Foto de perfil actualizada correctamente");
+        String responsePhotoUrl = "/api/professionals/" + doctorIdStr + "/photo";
+        return new DoctorProfilePhotoResponse(doctorIdStr, responsePhotoUrl, "Foto de perfil actualizada correctamente");
     }
 
     private UUID parseDoctorId(String doctorIdStr) {
@@ -134,5 +137,47 @@ public class DoctorProfilePhotoService {
         } catch (IllegalArgumentException e) {
             throw new AppointmentException("El doctorId no tiene un formato UUID válido.", HttpStatus.BAD_REQUEST, "INVALID_DOCTOR_ID");
         }
+    }
+
+    public String findCurrentPhotoUrl(UUID doctorId) {
+        return repository.findCurrentPhotoUrl(doctorId);
+    }
+
+    public Resource getDoctorPhotoResource(UUID doctorId) {
+        if (!repository.doctorExists(doctorId)) {
+            throw new AppointmentException("El doctor indicado no existe.", HttpStatus.NOT_FOUND, "DOCTOR_NOT_FOUND");
+        }
+
+        String dbFotoUrl = repository.findCurrentPhotoUrl(doctorId);
+        if (dbFotoUrl == null || dbFotoUrl.trim().isEmpty()) {
+            throw new AppointmentException("El doctor no tiene una foto de perfil registrada.", HttpStatus.NOT_FOUND, "PHOTO_NOT_FOUND");
+        }
+
+        String trimmed = dbFotoUrl.trim();
+        if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
+            return null;
+        }
+
+        String relativePath;
+        if (trimmed.startsWith("/uploads/")) {
+            relativePath = trimmed.substring("/uploads".length());
+        } else if (trimmed.startsWith("uploads/")) {
+            relativePath = trimmed.substring("uploads".length() - 1);
+        } else {
+            relativePath = trimmed;
+        }
+
+        Path uploadsRootPath = Paths.get(uploadRoot).toAbsolutePath().normalize();
+        Path filePath = Paths.get(uploadRoot, relativePath).toAbsolutePath().normalize();
+
+        if (!filePath.startsWith(uploadsRootPath)) {
+            throw new AppointmentException("Acceso no autorizado al almacenamiento.", HttpStatus.FORBIDDEN, "ACCESS_DENIED");
+        }
+
+        if (!Files.exists(filePath) || !Files.isRegularFile(filePath)) {
+            throw new AppointmentException("El archivo de la imagen no existe.", HttpStatus.NOT_FOUND, "FILE_NOT_FOUND");
+        }
+
+        return new FileSystemResource(filePath);
     }
 }

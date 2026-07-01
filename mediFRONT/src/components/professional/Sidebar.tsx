@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Calendar, Users, Settings, LogOut, ChevronRight, ChevronLeft } from 'lucide-react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../../store/authStore';
+import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../../auth/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import logo from '../../assets/logo_pro.png';
 import { cn } from '../../utils/cn';
@@ -9,19 +9,19 @@ import { cn } from '../../utils/cn';
 export const Sidebar: React.FC = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
-  const logout = useAuthStore((state) => state.logout);
+  const { logout } = useAuth();
+
   
   const menuItems = [
-    { icon: Calendar, label: 'Agenda', path: '/pro/agenda' },
-    { icon: Settings, label: 'Configuración', path: '/pro/config' },
-    { icon: Users, label: 'Perfil Público', path: '/pro/profile' },
+    { icon: Calendar, label: 'Agenda', path: '/doctor/calendar' },
+    { icon: Settings, label: 'Configuración', path: '/doctor/settings' },
+    { icon: Users, label: 'Perfil Público', path: '/doctor/profile' },
   ];
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
   };
+
 
   return (
     <motion.div 

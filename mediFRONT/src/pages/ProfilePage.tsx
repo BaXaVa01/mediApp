@@ -1,7 +1,8 @@
-import React from 'react';
-import { useNavigate, Navigate, useLocation } from 'react-router-dom';
-import { useAuthStore } from '../store/authStore';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Navigate, useParams } from 'react-router-dom';
 import { useSelectedProfileStore } from '../store/selectedProfileStore';
+import { useLocationStore } from '../store/locationStore';
+import { profileService } from '../services/profileService';
 import { mockDoctors, mockClinics } from '../utils/mockData';
 import { Button } from '../components/ui/Button';
 import { ArrowLeft } from 'lucide-react';
@@ -20,35 +21,77 @@ import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 
 const ProfilePage: React.FC = () => {
-  const { isAuthenticated } = useAuthStore();
-  const { selectedId, selectedType } = useSelectedProfileStore();
+  const { doctorId } = useParams<{ doctorId: string }>();
+  const { selectedId, selectedType, setSelected } = useSelectedProfileStore();
+  const { searchResults } = useLocationStore();
   const navigate = useNavigate();
-  const location = useLocation();
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  }
+  const [apiProfile, setApiProfile] = useState<Doctor | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  if (!selectedId) {
+  const activeDoctorId = doctorId || selectedId;
+
+  // Sync route param with store state
+  useEffect(() => {
+    if (doctorId && doctorId !== selectedId) {
+      setSelected(doctorId, 'doctor');
+    }
+  }, [doctorId, selectedId, setSelected]);
+
+  useEffect(() => {
+    if (!activeDoctorId || selectedType !== 'doctor') return;
+    
+    // Check if we have it locally first
+    const localDoc = mockDoctors.find(d => d.id === activeDoctorId) || searchResults.find(d => d.id === activeDoctorId);
+    if (localDoc) {
+      setApiProfile(localDoc);
+      return;
+    }
+
+    // Fetch from backend if not found locally
+    const fetchDoc = async () => {
+      setLoading(true);
+      try {
+        const doc = await profileService.getProfessionalById(activeDoctorId);
+        setApiProfile(doc);
+      } catch (err) {
+        console.error('Error fetching doctor details:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchDoc();
+  }, [activeDoctorId, selectedType, searchResults]);
+
+  if (!activeDoctorId) {
     return <Navigate to="/buscar" replace />;
   }
 
+  if (loading) {
+    return (
+      <div className="flex h-screen flex-col items-center justify-center text-[#5A9BD4]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-current mb-4" />
+        <p className="font-medium text-lg">Cargando perfil...</p>
+      </div>
+    );
+  }
+
   const profile = selectedType === 'doctor' 
-    ? mockDoctors.find(d => d.id === selectedId)
-    : mockClinics.find(c => c.id === selectedId);
+    ? apiProfile
+    : mockClinics.find(c => c.id === activeDoctorId);
 
   if (!profile) {
     return (
       <div className="flex h-screen flex-col items-center justify-center">
-        <p>Perfil no encontrado</p>
+        <p className="mb-4">Perfil no encontrado</p>
         <Button onClick={() => navigate('/buscar')}>Volver a buscar</Button>
       </div>
     );
   }
 
-  const isDoctor = selectedType === 'doctor';
-  const doctor = isDoctor ? (profile as Doctor) : null;
-  const clinic = !isDoctor ? (profile as Clinic) : null;
+  const isDoctorProfile = selectedType === 'doctor';
+  const doctor = isDoctorProfile ? (profile as Doctor) : null;
+  const clinic = !isDoctorProfile ? (profile as Clinic) : null;
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -97,7 +140,7 @@ const ProfilePage: React.FC = () => {
         animate="visible"
         className="max-w-6xl mx-auto px-6 -mt-24 relative z-10"
       >
-        {isDoctor && doctor ? (
+        {isDoctorProfile && doctor ? (
           <div className="space-y-8">
             <motion.div variants={itemVariants}>
               <ProfileHero doctor={doctor} />

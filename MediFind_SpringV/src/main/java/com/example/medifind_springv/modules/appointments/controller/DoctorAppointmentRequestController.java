@@ -1,5 +1,6 @@
 package com.example.medifind_springv.modules.appointments.controller;
 
+import com.example.medifind_springv.config.AuthenticatedUser;
 import com.example.medifind_springv.modules.appointments.dto.AppointmentDecisionRequest;
 import com.example.medifind_springv.modules.appointments.dto.AppointmentDecisionResponse;
 import com.example.medifind_springv.modules.appointments.dto.PendingAppointmentsPageResponse;
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.*;
 public class DoctorAppointmentRequestController {
 
     private final DoctorAppointmentRequestService requestService;
+    private final AuthenticatedUser authenticatedUser;
 
-    public DoctorAppointmentRequestController(DoctorAppointmentRequestService requestService) {
+    public DoctorAppointmentRequestController(DoctorAppointmentRequestService requestService, AuthenticatedUser authenticatedUser) {
         this.requestService = requestService;
+        this.authenticatedUser = authenticatedUser;
     }
 
     @GetMapping("/pending")
@@ -24,6 +27,7 @@ public class DoctorAppointmentRequestController {
             @RequestParam String doctorId,
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "10") Integer size) {
+        authenticatedUser.verifyDoctorOwnership(doctorId);
         return ResponseEntity.ok(requestService.getPendingAppointments(doctorId, page, size));
     }
 
@@ -31,6 +35,7 @@ public class DoctorAppointmentRequestController {
     public ResponseEntity<AppointmentDecisionResponse> updateDecision(
             @PathVariable String appointmentId,
             @Valid @RequestBody AppointmentDecisionRequest request) {
+        authenticatedUser.verifyDoctorOwnership(request.getDoctorId());
         return ResponseEntity.ok(requestService.updateDecision(appointmentId, request));
     }
 }

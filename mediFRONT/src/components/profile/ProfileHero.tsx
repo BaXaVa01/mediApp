@@ -47,7 +47,7 @@ export const ProfileHero: React.FC<{ doctor: Doctor }> = ({ doctor }) => {
             <div className="p-1.5 bg-[#5A9BD4]/10 rounded-lg">
               <MapPin className="h-4 w-4 text-[#5A9BD4]" />
             </div>
-            <span className="font-medium">{doctor.location.address}</span>
+            <span className="font-medium">{doctor.location?.address || 'Dirección no disponible'}</span>
           </div>
         </div>
 

@@ -28,9 +28,19 @@ public class DoctorProfileSettingsService {
         ContactVisibilityDTO visibility = repository.getContactVisibility(doctorId);
         List<EducationDTO> education = repository.getEducation(doctorId);
         List<ExperienceDTO> experience = repository.getExperience(doctorId);
+        
         String photoUrl = repository.getDoctorPhotoUrl(doctorId);
+        String publicPhotoUrl = "";
+        if (photoUrl != null && !photoUrl.trim().isEmpty()) {
+            String trimmed = photoUrl.trim();
+            if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
+                publicPhotoUrl = trimmed;
+            } else {
+                publicPhotoUrl = "/api/professionals/" + doctorIdStr + "/photo";
+            }
+        }
 
-        return new DoctorEditableProfileResponse(doctorIdStr, photoUrl, identity, visibility, education, experience);
+        return new DoctorEditableProfileResponse(doctorIdStr, publicPhotoUrl, identity, visibility, education, experience);
     }
 
     @Transactional

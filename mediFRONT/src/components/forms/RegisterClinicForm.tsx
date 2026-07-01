@@ -1,19 +1,25 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../../store/authStore';
+import { useAuth } from '../../auth/AuthContext';
 import { Button } from '../ui/Button';
 import { Building2 } from 'lucide-react';
 
 export const RegisterClinicForm: React.FC = () => {
   const navigate = useNavigate();
-  const login = useAuthStore((state) => state.login);
+  const { login } = useAuth();
   const [formData, setFormData] = useState({ clinicName: '', doctorsCount: '', city: '', email: '', password: '' });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    login({ email: formData.email, password: formData.password });
-    navigate('/pro/agenda');
+    try {
+      await login(formData.email, formData.password);
+      navigate('/doctor/calendar');
+    } catch (err) {
+      console.error('Mock clinic login error:', err);
+      navigate('/doctor/calendar');
+    }
   };
+
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">

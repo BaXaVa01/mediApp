@@ -2,11 +2,13 @@ import { NavLink, Link, useLocation } from 'react-router-dom';
 import { Button } from '../ui/Button';
 import { Search, User, Home, Menu } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useAuth } from '../../auth/AuthContext';
 
 export const Navbar = () => {
   const location = useLocation();
+  const { user, isAuthenticated, logout } = useAuth();
   
-  if (location.pathname.startsWith('/pro')) return null;
+  if (location.pathname.startsWith('/pro') || location.pathname.startsWith('/doctor')) return null;
 
   return (
     <nav className="fixed top-0 z-50 w-full border-b border-[#1C365C]/5 bg-[#FDF9F3]/80 backdrop-blur-xl">
@@ -22,7 +24,7 @@ export const Navbar = () => {
           {[
             { to: "/", icon: Home, label: "Inicio" },
             { to: "/buscar", icon: Search, label: "Buscar" },
-            { to: "/perfil", icon: User, label: "Mi Cuenta" },
+            ...(isAuthenticated ? [{ to: "/perfil", icon: User, label: "Mi Cuenta" }] : []),
           ].map((item) => (
             <NavLink
               key={item.to}
@@ -51,16 +53,39 @@ export const Navbar = () => {
 
         <div className="flex items-center gap-3">
           <div className="hidden sm:flex items-center gap-3">
-            <Link to="/login">
-              <Button variant="ghost" className="font-bold text-[#1C365C] hover:text-[#5A9BD4] hover:bg-transparent">
-                Entrar
-              </Button>
-            </Link>
-            <Link to="/registro">
-              <Button className="bg-[#1C365C] text-white hover:bg-[#2C466C] px-6 rounded-xl font-bold">
-                Únete
-              </Button>
-            </Link>
+            {isAuthenticated ? (
+              <>
+                <span className="text-sm font-bold text-[#1C365C]/80 pr-2">
+                  {user?.displayName || user?.name}
+                </span>
+                {user?.accountType === 'DOCTOR' && (
+                  <Link to="/doctor/calendar">
+                    <Button variant="ghost" className="font-bold text-[#1C365C] hover:text-[#5A9BD4] hover:bg-transparent">
+                      Panel Médico
+                    </Button>
+                  </Link>
+                )}
+                <Button 
+                  onClick={logout}
+                  className="bg-[#1C365C] text-white hover:bg-[#2C466C] px-6 rounded-xl font-bold"
+                >
+                  Salir
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link to="/login">
+                  <Button variant="ghost" className="font-bold text-[#1C365C] hover:text-[#5A9BD4] hover:bg-transparent">
+                    Entrar
+                  </Button>
+                </Link>
+                <Link to="/registro">
+                  <Button className="bg-[#1C365C] text-white hover:bg-[#2C466C] px-6 rounded-xl font-bold">
+                    Únete
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
           <Button variant="ghost" size="icon" className="lg:hidden text-[#1C365C]">
             <Menu className="size-6" />
@@ -70,4 +95,5 @@ export const Navbar = () => {
     </nav>
   );
 };
+
 

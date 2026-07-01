@@ -1,103 +1,117 @@
-import { mockAppointments, mockRequests } from '../utils/agendaMockData';
-import type { Appointment, ScheduleRequest } from '../utils/agendaMockData';
+import { apiFetch } from '../lib/api';
 
-export interface BookingSlot {
-  time: string;
-  available: boolean;
-}
-
-export interface BookingDay {
+export interface DoctorCalendarAppointment {
+  id: string;
   date: string;
-  dayName: string;
-  dayNumber: number;
-  monthName: string;
-  slots: BookingSlot[];
+  startTime: string;
+  endTime: string;
+  status: string;
+  patient: {
+    id: string;
+    name: string;
+    email?: string;
+    phone?: string;
+    gender?: string;
+    birthDate?: string;
+  };
+  case: {
+    serviceId?: string;
+    serviceName?: string;
+    reason?: string;
+    notes?: string;
+    reservedPrice?: number;
+  };
+  location: {
+    id: string;
+    name: string;
+    type?: string;
+    address?: string;
+    city?: string;
+    clinicId?: string | null;
+    clinicName?: string;
+  };
 }
 
-// Frontend Service simulating backend calls
+export interface DoctorWeeklyCalendarResponse {
+  doctorId: string;
+  weekStart: string;
+  weekEnd: string;
+  appointments: DoctorCalendarAppointment[];
+}
+
+export interface PendingAppointmentsPageResponse {
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+  items: DoctorCalendarAppointment[];
+}
+
+export interface AppointmentDecisionResponse {
+  appointmentId: string;
+  status: string;
+  message: string;
+}
+
+function normalizePage(value: unknown): number {
+  const parsed = Number(value);
+  if (!Number.isInteger(parsed) || parsed < 0) return 0;
+  return parsed;
+}
+
+function normalizeSize(value: unknown): number {
+  const parsed = Number(value);
+  if (!Number.isInteger(parsed) || parsed <= 0) return 10;
+  if (parsed > 50) return 50;
+  return parsed;
+}
+
 class AgendaService {
-  async getAppointments(start: Date, end: Date): Promise<Appointment[]> {
-    // Simulate API filtering by date range
-    const filtered = mockAppointments.filter(apt => {
-      const aptTime = new Date(apt.startTime).getTime();
-      return aptTime >= start.getTime() && aptTime <= end.getTime();
-    });
-    return new Promise((resolve) => setTimeout(() => resolve([...filtered]), 300));
+  async getDoctorWeeklyCalendar(doctorId: string, weekStart: string): Promise<DoctorWeeklyCalendarResponse> {
+    if (import.meta.env.DEV) {
+      console.debug("[DoctorDashboard] doctorId", doctorId);
+      console.debug("[DoctorDashboard] weekStart", weekStart);
+    }
+    return apiFetch<DoctorWeeklyCalendarResponse>(
+      `/api/doctors/${encodeURIComponent(doctorId)}/appointments/calendar?weekStart=${encodeURIComponent(weekStart)}`
+    );
   }
 
-  async getPendingRequests(): Promise<ScheduleRequest[]> {
-    return new Promise((resolve) => setTimeout(() => resolve([...mockRequests]), 300));
+  async getPendingAppointments(doctorId: string, page = 0, size = 10): Promise<PendingAppointmentsPageResponse> {
+    const safePage = normalizePage(page);
+    const safeSize = normalizeSize(size);
+    const url = `/api/doctor/appointments/pending?doctorId=${encodeURIComponent(doctorId)}&page=${safePage}&size=${safeSize}`;
+
+    if (import.meta.env.DEV) {
+      console.debug("[DoctorDashboard] pending pagination", { page: safePage, size: safeSize });
+      console.debug("[AgendaService.getPendingAppointments] params", {
+        doctorId,
+        page: safePage,
+        size: safeSize,
+        url
+      });
+    }
+
+    return apiFetch<PendingAppointmentsPageResponse>(url);
   }
 
-  async updateStatus(_id: string, _status: Appointment['status']): Promise<void> {
-    return new Promise((resolve) => setTimeout(resolve, 300));
-  }
-
-  async reschedule(_id: string, _newStart: Date, _newEnd: Date): Promise<void> {
-    return new Promise((resolve) => setTimeout(resolve, 300));
-  }
-
-  async sendReminder(_id: string): Promise<void> {
-    return new Promise((resolve) => setTimeout(resolve, 300));
-  }
-
-  async getDoctorBookingSchedule(_doctorId: string): Promise<BookingDay[]> {
-    const days: BookingDay[] = [
+  async updateAppointmentDecision(
+    appointmentId: string, 
+    doctorId: string, 
+    decision: 'ACCEPT' | 'REJECT', 
+    notes?: string
+  ): Promise<AppointmentDecisionResponse> {
+    return apiFetch<AppointmentDecisionResponse>(
+      `/api/doctor/appointments/${encodeURIComponent(appointmentId)}/decision`,
       {
-        date: '2026-05-12',
-        dayName: 'Mar',
-        dayNumber: 12,
-        monthName: 'May',
-        slots: [
-          { time: '11:00', available: false },
-          { time: '12:00', available: true },
-          { time: '13:00', available: true },
-          { time: '14:00', available: false },
-          { time: '15:00', available: true },
-        ]
-      },
-      {
-        date: '2026-05-13',
-        dayName: 'Mié',
-        dayNumber: 13,
-        monthName: 'May',
-        slots: [
-          { time: '11:00', available: true },
-          { time: '12:00', available: false },
-          { time: '13:00', available: false },
-          { time: '14:00', available: false },
-          { time: '15:00', available: true },
-        ]
-      },
-      {
-        date: '2026-05-14',
-        dayName: 'Jue',
-        dayNumber: 14,
-        monthName: 'May',
-        slots: [
-          { time: '11:00', available: true },
-          { time: '12:00', available: true },
-          { time: '13:00', available: true },
-          { time: '14:00', available: true },
-          { time: '15:00', available: true },
-        ]
-      },
-      {
-        date: '2026-05-15',
-        dayName: 'Vie',
-        dayNumber: 15,
-        monthName: 'May',
-        slots: [
-          { time: '11:00', available: false },
-          { time: '12:00', available: false },
-          { time: '13:00', available: false },
-          { time: '14:00', available: false },
-          { time: '15:00', available: false },
-        ]
+        method: 'PATCH',
+        body: JSON.stringify({
+          doctorId,
+          decision,
+          notes: notes || (decision === 'ACCEPT' ? 'Confirmada por el doctor' : 'No disponible en ese horario')
+        })
       }
-    ];
-
-    return new Promise((resolve) => setTimeout(() => resolve(days), 500));
+    );
   }
 }
 

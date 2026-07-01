@@ -9,6 +9,8 @@ import { Button } from '../ui/Button';
 import { useLocationStore } from '../../store/locationStore';
 import { useSelectedProfileStore } from '../../store/selectedProfileStore';
 import { getUserLocation } from '../../services/locationService';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../auth/AuthContext';
 
 // Fix for default marker icon
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
@@ -41,8 +43,28 @@ const SearchMap: React.FC<SearchMapProps> = ({ doctors, targetLocation }) => {
   const routingControl = useRef<any>(null);
   
   const { userCoords, setUserCoords } = useLocationStore();
-  const { routingTarget, setRoutingTarget } = useSelectedProfileStore();
+  const { routingTarget, setRoutingTarget, setSelected } = useSelectedProfileStore();
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
   const [isLocating, setIsLocating] = useState(false);
+
+  useEffect(() => {
+    const handleSelectDoctor = (e: Event) => {
+      const customEvent = e as CustomEvent<{ id: string }>;
+      const doctorId = customEvent.detail.id;
+      setSelected(doctorId, 'doctor');
+      if (isAuthenticated) {
+        navigate('/perfil');
+      } else {
+        navigate('/login', { state: { from: window.location.pathname + window.location.search } });
+      }
+    };
+
+    window.addEventListener('select-doctor', handleSelectDoctor);
+    return () => {
+      window.removeEventListener('select-doctor', handleSelectDoctor);
+    };
+  }, [navigate, setSelected, isAuthenticated]);
 
   useEffect(() => {
     if (mapRef.current && !leafletMap.current) {
@@ -153,7 +175,13 @@ const SearchMap: React.FC<SearchMapProps> = ({ doctors, targetLocation }) => {
     if (routingTarget && userCoords && leafletMap.current) {
       const targetDoc = doctors.find(d => d.id === routingTarget);
       if (targetDoc) {
-        calculateRoute([targetDoc.location.lat, targetDoc.location.lng]);
+        const lat = targetDoc.location?.lat;
+        const lng = targetDoc.location?.lng;
+        if (typeof lat === 'number' && typeof lng === 'number') {
+          calculateRoute([lat, lng]);
+        } else {
+          alert('Este doctor no tiene coordenadas registradas.');
+        }
         // Clear target after starting route
         setRoutingTarget(null);
       }
@@ -196,10 +224,61 @@ const SearchMap: React.FC<SearchMapProps> = ({ doctors, targetLocation }) => {
 
       const markers: L.Marker[] = [];
       doctors.forEach((doc) => {
-        const marker = L.marker([doc.location.lat, doc.location.lng])
-          .bindPopup(`<b>${doc.name}</b><br>${doc.specialty}`);
-        marker.addTo(markersLayer.current!);
-        markers.push(marker);
+        // Collect all locations
+        const locationsToRender: Array<{ lat: number; lng: number; address?: string }> = [];
+
+        // 1. check doc.location
+        if (doc.location && typeof doc.location.lat === 'number' && typeof doc.location.lng === 'number') {
+          locationsToRender.push({
+            lat: doc.location.lat,
+            lng: doc.location.lng,
+            address: doc.location.address
+          });
+        }
+
+        // 2. check doc.locations array
+        if (Array.isArray(doc.locations)) {
+          doc.locations.forEach((loc) => {
+            if (loc && typeof loc.lat === 'number' && typeof loc.lng === 'number') {
+              // Avoid duplicating the exact same coordinates
+              const isDuplicate = locationsToRender.some(
+                existing => existing.lat === loc.lat && existing.lng === loc.lng
+              );
+              if (!isDuplicate) {
+                locationsToRender.push({
+                  lat: loc.lat,
+                  lng: loc.lng,
+                  address: loc.address
+                });
+              }
+            }
+          });
+        }
+
+        // Render markers for all valid locations
+        locationsToRender.forEach((loc) => {
+          const popupContent = `
+            <div style="font-family: inherit; color: #1C365C; padding: 4px; min-width: 160px;">
+              <b style="font-size: 14px; display: block; margin-bottom: 2px;">${doc.name}</b>
+              <span style="color: #5A9BD4; font-weight: 600; font-size: 12px; display: block; margin-bottom: 6px;">${doc.specialty || ''}</span>
+              ${loc.address ? `<p style="font-size: 11px; color: #666; margin: 0 0 8px 0; line-height: 1.3;">${loc.address}</p>` : ''}
+              <button 
+                onclick="window.dispatchEvent(new CustomEvent('select-doctor', { detail: { id: '${doc.id}' } }))"
+                style="background-color: #5A9BD4; color: white; border: none; padding: 6px 12px; border-radius: 8px; font-weight: bold; font-size: 11px; cursor: pointer; width: 100%; transition: background-color 0.2s;"
+                onmouseover="this.style.backgroundColor='#4A8BC4'"
+                onmouseout="this.style.backgroundColor='#5A9BD4'"
+              >
+                Ver perfil
+              </button>
+            </div>
+          `;
+
+          const marker = L.marker([loc.lat, loc.lng])
+            .bindPopup(popupContent);
+          
+          marker.addTo(markersLayer.current!);
+          markers.push(marker);
+        });
       });
 
       if (markers.length > 0 && !userCoords && !targetLocation) {

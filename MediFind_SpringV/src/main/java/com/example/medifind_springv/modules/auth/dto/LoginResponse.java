@@ -1,6 +1,8 @@
 package com.example.medifind_springv.modules.auth.dto;
 
 public class LoginResponse {
+    private String token;
+    private String tokenType;
     private String userId;
     private String profileId;
     private String accountType;
@@ -14,7 +16,9 @@ public class LoginResponse {
 
     public LoginResponse() {}
 
-    public LoginResponse(String userId, String profileId, String accountType, String role, String name, String displayName, String email, String phone, String defaultRoute, String message) {
+    public LoginResponse(String token, String tokenType, String userId, String profileId, String accountType, String role, String name, String displayName, String email, String phone, String defaultRoute, String message) {
+        this.token = token;
+        this.tokenType = tokenType != null ? tokenType : "Bearer";
         this.userId = userId;
         this.profileId = profileId;
         this.accountType = accountType;
@@ -25,6 +29,22 @@ public class LoginResponse {
         this.phone = phone != null ? phone : "";
         this.defaultRoute = defaultRoute;
         this.message = message;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getTokenType() {
+        return tokenType;
+    }
+
+    public void setTokenType(String tokenType) {
+        this.tokenType = tokenType != null ? tokenType : "Bearer";
     }
 
     public String getUserId() {

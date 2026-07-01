@@ -7,6 +7,9 @@ import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { useLocationStore } from '../store/locationStore';
 import { getUserLocation } from '../services/locationService';
+import { profileService } from '../services/profileService';
+import type { Doctor } from '../types/doctor';
+import { SearchResultCard } from '../components/cards/SearchResultCard';
 import homePageOnBackground from '../assets/homepage.png';
 import doctor from '../assets/doctor.png';
 
@@ -16,15 +19,47 @@ const HomePage: React.FC = () => {
   const [specialty, setSpecialty] = useState('');
   const [location, setLocation] = useState('');
 
+  const [results, setResults] = useState<Doctor[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
     getUserLocation((coords) => {
       setUserCoords(coords);
     });
   }, [setUserCoords]);
 
+  // Debounce search effect for instant feedback on HomePage
+  useEffect(() => {
+    const trimmed = specialty.trim();
+    if (trimmed.length < 2) {
+      setResults([]);
+      setLoading(false);
+      setError(null);
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    const timer = setTimeout(async () => {
+      try {
+        const data = await profileService.searchProfessionals(trimmed);
+        setResults(data);
+      } catch (err: any) {
+        setError(err.message || 'No se pudo realizar la búsqueda. Intentá de nuevo.');
+        setResults([]);
+      } finally {
+        setLoading(false);
+      }
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [specialty]);
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    navigate(`/buscar?specialty=${encodeURIComponent(specialty)}&loc=${encodeURIComponent(location)}`);
+    navigate(`/buscar?query=${encodeURIComponent(specialty)}&loc=${encodeURIComponent(location)}`);
   };
 
   const containerVariants: Variants = {
@@ -116,6 +151,50 @@ const HomePage: React.FC = () => {
                     Buscar
                   </Button>
                 </form>
+                {specialty.trim().length >= 2 && (
+                  <div className="mt-6 bg-white/95 backdrop-blur-md p-6 rounded-3xl border border-[#1C365C]/5 shadow-xl max-w-3xl w-full flex flex-col gap-4 relative z-50">
+                    {loading && (
+                      <div className="flex items-center justify-center py-8 text-[#5A9BD4]">
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-current mr-3" />
+                        <span className="font-semibold text-lg">Buscando especialistas...</span>
+                      </div>
+                    )}
+                    
+                    {!loading && error && (
+                      <div className="text-center py-6 text-red-500 font-medium">
+                        No se pudo realizar la búsqueda. Intentá de nuevo.
+                      </div>
+                    )}
+                    
+                    {!loading && !error && results.length === 0 && (
+                      <div className="text-center py-8 text-[#1C365C]/60 font-medium">
+                        No encontramos doctores para esa especialidad.
+                      </div>
+                    )}
+                    
+                    {!loading && !error && results.length > 0 && (
+                      <>
+                        <div className="text-xs uppercase tracking-wider text-[#1C365C]/50 font-bold mb-1">
+                          Resultados sugeridos
+                        </div>
+                        <div className="flex flex-col gap-4 max-h-[350px] overflow-y-auto pr-2 custom-scrollbar">
+                          {results.slice(0, 3).map((doc) => (
+                            <SearchResultCard key={doc.id} data={doc} type="doctor" />
+                          ))}
+                        </div>
+                        {results.length > 3 && (
+                          <button
+                            type="button"
+                            onClick={handleSearch}
+                            className="mt-2 text-center text-[#5A9BD4] font-bold hover:underline w-full py-2"
+                          >
+                            Ver los {results.length} resultados completos →
+                          </button>
+                        )}
+                      </>
+                    )}
+                  </div>
+                )}
               </motion.div>
             </div>
 

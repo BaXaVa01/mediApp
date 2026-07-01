@@ -6,7 +6,14 @@ import { Outlet, useLocation } from 'react-router-dom';
 const ProfessionalPage: React.FC = () => {
   const location = useLocation();
 
-  const isFullscreenRoute = location.pathname.includes('/pro/agenda') || location.pathname.includes('/pro/config') || location.pathname.includes('/pro/profile');
+  const isFullscreenRoute = 
+    location.pathname.includes('/pro/agenda') || 
+    location.pathname.includes('/pro/config') || 
+    location.pathname.includes('/pro/profile') ||
+    location.pathname.includes('/doctor/calendar') ||
+    location.pathname.includes('/doctor/settings') ||
+    location.pathname.includes('/doctor/profile');
+
 
   return (
     <div className="flex h-screen bg-[#FDF9F3] overflow-hidden">

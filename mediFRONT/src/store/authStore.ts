@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { getAuthUser, clearAuthSession } from '../auth/authCookies';
 
 interface AuthState {
   isAuthenticated: boolean;
@@ -8,17 +9,19 @@ interface AuthState {
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
-  isAuthenticated: false,
-  user: null,
-  login: (credentials) => {
-    set({ 
-      isAuthenticated: true, 
-      user: { 
-        name: credentials.role === 'pro' ? 'Dr. Julian Smith' : 'Arthur Morgan', 
-        email: credentials.email,
-        role: credentials.role || 'patient'
-      } 
+  isAuthenticated: !!getAuthUser(),
+  user: getAuthUser(),
+  login: (credentials: any) => {
+    // Legacy support, in real flow we use AuthContext
+    set({
+      isAuthenticated: true,
+      user: credentials,
     });
   },
-  logout: () => set({ isAuthenticated: false, user: null }),
+  logout: () => {
+    clearAuthSession();
+    set({ isAuthenticated: false, user: null });
+  },
 }));
+
+

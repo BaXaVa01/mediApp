@@ -4,7 +4,7 @@ import { Star, MapPin, Navigation, Video, Home, Stethoscope } from 'lucide-react
 import type { Doctor } from '../../types/doctor';
 import type { Clinic } from '../../types/clinic';
 import { useSelectedProfileStore } from '../../store/selectedProfileStore';
-import { useAuthStore } from '../../store/authStore';
+import { useAuth } from '../../auth/AuthContext';
 import { Button } from '../ui/Button';
 import { AvailabilityPreview } from './AvailabilityPreview';
 
@@ -17,7 +17,8 @@ export const SearchResultCard: React.FC<SearchResultCardProps> = ({ data, type }
   const navigate = useNavigate();
   const location = useLocation();
   const { setSelected, setRoutingTarget } = useSelectedProfileStore();
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const { isAuthenticated } = useAuth();
+
 
   const isDoctor = type === 'doctor';
   const doctor = isDoctor ? (data as Doctor) : null;
@@ -66,7 +67,7 @@ export const SearchResultCard: React.FC<SearchResultCardProps> = ({ data, type }
         <div className="mt-4 flex flex-col gap-2.5 text-sm text-[#1C365C]/60">
           <div className="flex items-start gap-2">
             <MapPin className="w-4 h-4 text-[#1C365C]/30 shrink-0 mt-0.5" />
-            <span className="line-clamp-2">{data.location.address}</span>
+            <span className="line-clamp-2">{data.location?.address || 'Dirección no disponible'}</span>
           </div>
           
           <div className="flex flex-wrap gap-x-6 gap-y-2">

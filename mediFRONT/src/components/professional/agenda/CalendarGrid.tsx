@@ -5,7 +5,7 @@ import { AppointmentBlock } from './AppointmentBlock';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export const CalendarGrid: React.FC = () => {
-  const { viewMode, setViewMode, currentDate, appointments, activeFilters, fetchData, nextDate, prevDate } = useAgendaStore();
+  const { viewMode, setViewMode, currentDate, appointments, activeFilters, fetchData, nextDate, prevDate, calendarError } = useAgendaStore();
 
   useEffect(() => {
     fetchData();
@@ -113,65 +113,76 @@ export const CalendarGrid: React.FC = () => {
             ))}
           </div>
 
-          <div className="flex flex-1 relative">
-            {/* Time Labels Column */}
-            <div className="w-16 shrink-0 border-r border-[#1C365C]/5 flex flex-col relative z-10 bg-white">
-              {times.map((t, i) => (
-                <div key={i} className="h-[60px] border-b border-[#1C365C]/5 relative">
-                  <span className="absolute -top-2.5 right-2 text-[9px] font-semibold text-[#1C365C]/30">{t}</span>
-                </div>
-              ))}
+          {calendarError ? (
+            <div className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-[#FDF9F3]/30 min-h-[360px]">
+              <p className="text-red-500 font-bold mb-2">No pudimos cargar tu calendario. Intentá nuevamente.</p>
+              <p className="text-xs text-[#1C365C]/40">{calendarError}</p>
             </div>
-            
-            {/* Days Columns */}
-            <div className="flex-1 flex relative">
-              {/* Horizontal lines for the whole grid */}
-              <div className="absolute inset-0 flex flex-col pointer-events-none">
-                {times.map((_, j) => (
-                  <div key={j} className="h-[60px] border-b border-[#1C365C]/5 w-full"></div>
+          ) : filteredAppointments.length === 0 ? (
+            <div className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-[#FDF9F3]/30 min-h-[360px]">
+              <p className="text-[#1C365C]/50 font-bold">No tenés citas programadas para esta semana.</p>
+            </div>
+          ) : (
+            <div className="flex flex-1 relative">
+              {/* Time Labels Column */}
+              <div className="w-16 shrink-0 border-r border-[#1C365C]/5 flex flex-col relative z-10 bg-white">
+                {times.map((t, i) => (
+                  <div key={i} className="h-[60px] border-b border-[#1C365C]/5 relative">
+                    <span className="absolute -top-2.5 right-2 text-[9px] font-semibold text-[#1C365C]/30">{t}</span>
+                  </div>
                 ))}
               </div>
-
-              {/* Vertical column dividers */}
-              {days.map((_, i) => (
-                <div key={i} className={`flex-1 border-r border-[#1C365C]/5 last:border-0 relative`}>
-                </div>
-              ))}
               
-              {/* Events mapping */}
-              <AnimatePresence mode="wait">
-                <motion.div 
-                  key={currentDate.toISOString() + viewMode}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="absolute inset-0"
-                >
-                  {filteredAppointments.map(apt => {
-                    let dayIndex = 0;
-                    const aptDate = new Date(apt.startTime);
-                    
-                    if (viewMode === 'weekly') {
-                      // Get index relative to start of week (Sunday)
-                      dayIndex = aptDate.getDay();
-                    } else {
-                      // Daily view: only one column
-                      dayIndex = 0;
-                    }
+              {/* Days Columns */}
+              <div className="flex-1 flex relative">
+                {/* Horizontal lines for the whole grid */}
+                <div className="absolute inset-0 flex flex-col pointer-events-none">
+                  {times.map((_, j) => (
+                    <div key={j} className="h-[60px] border-b border-[#1C365C]/5 w-full"></div>
+                  ))}
+                </div>
 
-                    return (
-                      <AppointmentBlock 
-                        key={apt.id} 
-                        apt={apt} 
-                        dayIndex={dayIndex} 
-                      />
-                    );
-                  })}
-                </motion.div>
-              </AnimatePresence>
+                {/* Vertical column dividers */}
+                {days.map((_, i) => (
+                  <div key={i} className={`flex-1 border-r border-[#1C365C]/5 last:border-0 relative`}>
+                  </div>
+                ))}
+                
+                {/* Events mapping */}
+                <AnimatePresence mode="wait">
+                  <motion.div 
+                    key={currentDate.toISOString() + viewMode}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute inset-0"
+                  >
+                    {filteredAppointments.map(apt => {
+                      let dayIndex = 0;
+                      const aptDate = new Date(apt.startTime);
+                      
+                      if (viewMode === 'weekly') {
+                        // Get index relative to start of week (Sunday)
+                        dayIndex = aptDate.getDay();
+                      } else {
+                        // Daily view: only one column
+                        dayIndex = 0;
+                      }
+
+                      return (
+                        <AppointmentBlock 
+                          key={apt.id} 
+                          apt={apt} 
+                          dayIndex={dayIndex} 
+                        />
+                      );
+                    })}
+                  </motion.div>
+                </AnimatePresence>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

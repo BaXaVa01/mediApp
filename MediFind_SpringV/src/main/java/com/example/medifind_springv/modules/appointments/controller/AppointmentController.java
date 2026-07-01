@@ -1,5 +1,7 @@
 package com.example.medifind_springv.modules.appointments.controller;
 
+import com.example.medifind_springv.config.AuthenticatedUser;
+import com.example.medifind_springv.config.AuthenticatedUserPrincipal;
 import com.example.medifind_springv.modules.appointments.dto.AppointmentAvailabilityResponse;
 import com.example.medifind_springv.modules.appointments.dto.CreateAppointmentRequest;
 import com.example.medifind_springv.modules.appointments.dto.CreateAppointmentResponse;
@@ -19,9 +21,11 @@ import java.util.UUID;
 public class AppointmentController {
 
     private final AppointmentService appointmentService;
+    private final AuthenticatedUser authenticatedUser;
 
-    public AppointmentController(AppointmentService appointmentService) {
+    public AppointmentController(AppointmentService appointmentService, AuthenticatedUser authenticatedUser) {
         this.appointmentService = appointmentService;
+        this.authenticatedUser = authenticatedUser;
     }
 
     @GetMapping("/availability")
@@ -49,6 +53,21 @@ public class AppointmentController {
 
     @PostMapping
     public ResponseEntity<CreateAppointmentResponse> createAppointment(@Valid @RequestBody CreateAppointmentRequest request) {
+        AuthenticatedUserPrincipal principal = authenticatedUser.getPrincipal();
+        
+        // Assert role is PATIENT / PACIENTE
+        String role = principal.getRole();
+        if (!"paciente".equalsIgnoreCase(role) && !"patient".equalsIgnoreCase(role) &&
+                !"ROLE_PACIENTE".equalsIgnoreCase(role) && !"ROLE_PATIENT".equalsIgnoreCase(role)) {
+            throw new AppointmentException("No tiene permisos para acceder a este recurso.", HttpStatus.FORBIDDEN, "FORBIDDEN");
+        }
+
+        if (request.getPatientId() == null || request.getPatientId().trim().isEmpty()) {
+            request.setPatientId(principal.getProfileId());
+        } else {
+            authenticatedUser.verifyPatientOwnership(request.getPatientId());
+        }
+
         CreateAppointmentResponse response = appointmentService.createAppointment(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

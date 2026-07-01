@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useAuthStore } from '../store/authStore';
+import { useAuth } from '../auth/AuthContext';
 import { Button } from '../components/ui/Button';
 import { LogIn, ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -8,31 +8,60 @@ import { motion } from 'framer-motion';
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const login = useAuthStore((state) => state.login);
+  const [errorMsg, setErrorMsg] = useState('');
+  const { login, isLoading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
   const from = (location.state as any)?.from?.pathname || '/';
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    const isPro = email.trim().toLowerCase() === 'admin@email.com';
-    const role = isPro ? 'pro' : 'patient';
-    
-    login({ email, password, role });
+  const validateEmail = (val: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(val);
+  };
 
-    let target = from;
-    if (target === '/') {
-      target = isPro ? '/pro/agenda' : '/buscar';
-    } else if (isPro && !target.startsWith('/pro')) {
-      target = '/pro/agenda';
-    } else if (!isPro && target.startsWith('/pro')) {
-      target = '/buscar';
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMsg('');
+
+    if (!email.trim()) {
+      setErrorMsg('El correo electrónico es obligatorio.');
+      return;
     }
 
-    navigate(target, { replace: true });
+    if (!validateEmail(email)) {
+      setErrorMsg('El formato del correo electrónico no es válido.');
+      return;
+    }
+
+    if (!password) {
+      setErrorMsg('La contraseña es obligatoria.');
+      return;
+    }
+
+    try {
+      const response = await login(email, password);
+      
+      // Determine redirection target if defaultRoute is not handled by login() navigate
+      let target = from;
+      if (target === '/') {
+        target = response.defaultRoute || (response.accountType === 'DOCTOR' ? '/doctor/calendar' : '/');
+      }
+      navigate(target, { replace: true });
+    } catch (err: any) {
+      console.error('Login error details:', err);
+      if (err.code === 'INVALID_CREDENTIALS') {
+        setErrorMsg('Correo o contraseña incorrectos.');
+      } else if (err.code === 'USER_INACTIVE') {
+        setErrorMsg('Tu cuenta está inactiva. Contacta al soporte.');
+      } else if (err.code === 'NETWORK_ERROR') {
+        setErrorMsg('Error de red. No se pudo establecer conexión con el servidor.');
+      } else {
+        setErrorMsg(err.message || 'Error al iniciar sesión. Inténtalo de nuevo.');
+      }
+    }
   };
+
 
   return (
     <div className="flex min-h-[calc(100vh-80px)] bg-white">
@@ -82,6 +111,12 @@ const LoginPage: React.FC = () => {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
+            {errorMsg && (
+              <div className="p-4 bg-red-50 border border-red-100 text-red-600 rounded-2xl text-sm font-bold">
+                {errorMsg}
+              </div>
+            )}
+
             <div className="space-y-2">
               <label className="text-[10px] font-bold text-[#1C365C]/40 uppercase tracking-widest pl-1">Correo Electrónico</label>
               <input
@@ -106,9 +141,17 @@ const LoginPage: React.FC = () => {
               />
             </div>
             
-            <Button type="submit" className="w-full h-14 bg-[#1C365C] text-white hover:bg-[#2C466C] active:scale-95 transition-all text-lg font-bold rounded-2xl shadow-lg mt-4 flex items-center justify-center gap-2">
-              <LogIn className="w-5 h-5" />
-              Iniciar Sesión
+            <Button 
+              type="submit" 
+              disabled={isLoading}
+              className="w-full h-14 bg-[#1C365C] text-white hover:bg-[#2C466C] active:scale-95 transition-all text-lg font-bold rounded-2xl shadow-lg mt-4 flex items-center justify-center gap-2 disabled:opacity-50"
+            >
+              {isLoading ? (
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              ) : (
+                <LogIn className="w-5 h-5" />
+              )}
+              {isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
             </Button>
           </form>
 

@@ -176,4 +176,15 @@ public class GlobalExceptionHandler {
         );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
+
+    @ExceptionHandler(com.example.medifind_springv.modules.auth.exception.ResourceNotOwnedException.class)
+    public ResponseEntity<ApiErrorResponse> handleResourceNotOwned(
+            com.example.medifind_springv.modules.auth.exception.ResourceNotOwnedException ex) {
+        ApiErrorResponse response = new ApiErrorResponse(
+                HttpStatus.FORBIDDEN.value(),
+                "RESOURCE_NOT_OWNED",
+                ex.getMessage()
+        );
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+    }
 }

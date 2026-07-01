@@ -1,5 +1,6 @@
 package com.example.medifind_springv.modules.auth.service;
 
+import com.example.medifind_springv.config.JwtService;
 import com.example.medifind_springv.modules.auth.dto.RegisterUserRequest;
 import com.example.medifind_springv.modules.auth.dto.RegisterUserResponse;
 import com.example.medifind_springv.modules.auth.exception.EmailAlreadyExistsException;
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -22,11 +24,13 @@ public class AuthService {
     private final AuthRepository authRepository;
     private final PasswordEncoder passwordEncoder;
     private final ObjectMapper objectMapper;
+    private final JwtService jwtService;
 
-    public AuthService(AuthRepository authRepository, PasswordEncoder passwordEncoder, ObjectMapper objectMapper) {
+    public AuthService(AuthRepository authRepository, PasswordEncoder passwordEncoder, ObjectMapper objectMapper, JwtService jwtService) {
         this.authRepository = authRepository;
         this.passwordEncoder = passwordEncoder;
         this.objectMapper = objectMapper;
+        this.jwtService = jwtService;
     }
 
     @Transactional
@@ -251,7 +255,19 @@ public class AuthService {
             accountType = user.rol.toUpperCase();
         }
 
+        // Generate JWT Token
+        Map<String, Object> claims = Map.of(
+                "userId", user.id.toString(),
+                "profileId", profileId,
+                "role", role,
+                "accountType", accountType,
+                "email", user.email
+        );
+        String token = jwtService.generateToken(user.email, claims);
+
         return new com.example.medifind_springv.modules.auth.dto.LoginResponse(
+                token,
+                "Bearer",
                 user.id.toString(),
                 profileId,
                 accountType,

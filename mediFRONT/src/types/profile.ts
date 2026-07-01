@@ -31,6 +31,7 @@ export interface DoctorIdentity {
   verified: boolean;
   languagesSpoken: string[];
   mainSpecialty: string;
+  mainSpecialtyId?: string | null;
   additionalSpecialties: string[];
 }
 
@@ -49,4 +50,10 @@ export interface DoctorPublicProfile {
   contact: DoctorContact;
   education: EducationDoctor[];
   experience: ExperienceDoctor[];
+}
+
+export interface SpecialtyOption {
+  id: string;
+  name: string;
+  description?: string | null;
 }

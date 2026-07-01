@@ -73,10 +73,22 @@ public class ProfessionalRepository {
         
         List<ProfessionalProfileDTO> profilesList = jdbcTemplate.query(doctorSql, params, (rs, rowNum) -> {
             ProfessionalProfileDTO dto = new ProfessionalProfileDTO();
-            dto.setId(rs.getString("id"));
+            String docIdStr = rs.getString("id");
+            dto.setId(docIdStr);
             dto.setName(rs.getString("nombre_profesional"));
             dto.setBio(rs.getString("biografia") != null ? rs.getString("biografia") : "");
-            dto.setPhoto(rs.getString("foto_url") != null ? rs.getString("foto_url") : "");
+            
+            String rawPhoto = rs.getString("foto_url");
+            String publicPhotoUrl = "";
+            if (rawPhoto != null && !rawPhoto.trim().isEmpty()) {
+                String trimmed = rawPhoto.trim();
+                if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
+                    publicPhotoUrl = trimmed;
+                } else {
+                    publicPhotoUrl = "/api/professionals/" + docIdStr + "/photo";
+                }
+            }
+            dto.setPhoto(publicPhotoUrl);
             dto.setLicenseNumber(rs.getString("numero_licencia") != null ? rs.getString("numero_licencia") : "");
             return dto;
         });

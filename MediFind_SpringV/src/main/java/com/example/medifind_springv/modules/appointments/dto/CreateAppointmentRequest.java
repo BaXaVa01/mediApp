@@ -5,7 +5,6 @@ import jakarta.validation.constraints.Size;
 
 public class CreateAppointmentRequest {
 
-    @NotBlank(message = "El paciente es obligatorio")
     private String patientId;
 
     @NotBlank(message = "El doctor es obligatorio")

@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import type { DoctorPublicProfile, DoctorIdentity, DoctorContact, EducationDoctor, ExperienceDoctor } from '../types/profile';
 import { profileService } from '../services/profileService';
+import { getAuthUser } from '../auth/authCookies';
 
 interface ProfileState {
   profile: DoctorPublicProfile | null;
@@ -34,100 +35,178 @@ export const useProfileStore = create<ProfileState>((set, get) => ({
   error: null,
 
   fetchProfile: async () => {
+    const user = getAuthUser();
+    if (!user) return;
+    const doctorId = user.profileId;
+
     set({ isLoading: true, error: null });
     try {
-      const data = await profileService.getProfile();
+      const data = await profileService.getProfile(doctorId);
       set({ profile: data, isLoading: false });
     } catch (err: any) {
-      set({ error: err.message, isLoading: false });
+      set({ error: err.message || 'No se pudo cargar el perfil.', isLoading: false });
     }
   },
 
   updateIdentity: async (data) => {
+    const user = getAuthUser();
+    if (!user) return;
+    const doctorId = user.profileId;
+
     set({ isSaving: true, saveSuccess: false, error: null });
     try {
-      const updated = await profileService.updateIdentity(data);
+      const updated = await profileService.updateIdentity(data, doctorId);
       const current = get().profile!;
       set({ profile: { ...current, identity: updated }, isSaving: false, saveSuccess: true });
       setTimeout(() => set({ saveSuccess: false }), 2000);
     } catch (err: any) {
-      set({ error: err.message, isSaving: false });
+      set({ error: err.message || 'Error al guardar identidad.', isSaving: false });
+      throw err;
     }
   },
 
   updateContact: async (data) => {
+    const user = getAuthUser();
+    if (!user) return;
+    const doctorId = user.profileId;
+
     set({ isSaving: true, saveSuccess: false, error: null });
     try {
-      const updated = await profileService.updateContact(data);
+      const updated = await profileService.updateContact(data, doctorId);
       const current = get().profile!;
       set({ profile: { ...current, contact: updated }, isSaving: false, saveSuccess: true });
       setTimeout(() => set({ saveSuccess: false }), 2000);
     } catch (err: any) {
-      set({ error: err.message, isSaving: false });
+      set({ error: err.message || 'Error al guardar contacto.', isSaving: false });
+      throw err;
     }
   },
 
   uploadPhoto: async (file) => {
+    const user = getAuthUser();
+    if (!user) return;
+    const doctorId = user.profileId;
+
     set({ isSaving: true, error: null });
     try {
-      const url = await profileService.uploadPhoto(file);
+      const url = await profileService.uploadPhoto(file, doctorId);
       const current = get().profile!;
       set({ profile: { ...current, identity: { ...current.identity, photoUrl: url } }, isSaving: false });
     } catch (err: any) {
-      set({ error: err.message, isSaving: false });
+      set({ error: err.message || 'Error al subir la foto.', isSaving: false });
+      throw err;
     }
   },
 
   removePhoto: async () => {
+    const user = getAuthUser();
+    if (!user) return;
+    const doctorId = user.profileId;
+
     set({ isSaving: true, error: null });
     try {
-      await profileService.removePhoto();
+      await profileService.removePhoto(doctorId);
       const current = get().profile!;
       set({ profile: { ...current, identity: { ...current.identity, photoUrl: '' } }, isSaving: false });
     } catch (err: any) {
-      set({ error: err.message, isSaving: false });
+      set({ error: err.message || 'Error al eliminar la foto.', isSaving: false });
+      throw err;
     }
   },
 
   addEducation: async (data) => {
-    set({ isSaving: true });
-    const newEdu = await profileService.addEducation(data);
-    const p = get().profile!;
-    set({ profile: { ...p, education: [...p.education, newEdu] }, isSaving: false });
+    const user = getAuthUser();
+    if (!user) return;
+    const doctorId = user.profileId;
+
+    set({ isSaving: true, error: null });
+    try {
+      const newEdu = await profileService.addEducation(data, doctorId);
+      const p = get().profile!;
+      set({ profile: { ...p, education: [...p.education, newEdu] }, isSaving: false });
+    } catch (err: any) {
+      set({ error: err.message || 'Error al guardar educación.', isSaving: false });
+      throw err;
+    }
   },
 
   updateEducation: async (id, data) => {
-    set({ isSaving: true });
-    await profileService.updateEducation(id, data);
-    const p = get().profile!;
-    set({ profile: { ...p, education: p.education.map(e => e.id === id ? { ...e, ...data } : e) }, isSaving: false });
+    const user = getAuthUser();
+    if (!user) return;
+    const doctorId = user.profileId;
+
+    set({ isSaving: true, error: null });
+    try {
+      await profileService.updateEducation(id, data, doctorId);
+      const p = get().profile!;
+      set({ profile: { ...p, education: p.education.map(e => e.id === id ? { ...e, ...data } : e) }, isSaving: false });
+    } catch (err: any) {
+      set({ error: err.message || 'Error al actualizar educación.', isSaving: false });
+      throw err;
+    }
   },
 
   deleteEducation: async (id) => {
-    set({ isSaving: true });
-    await profileService.deleteEducation(id);
-    const p = get().profile!;
-    set({ profile: { ...p, education: p.education.filter(e => e.id !== id) }, isSaving: false });
+    const user = getAuthUser();
+    if (!user) return;
+    const doctorId = user.profileId;
+
+    set({ isSaving: true, error: null });
+    try {
+      await profileService.deleteEducation(id, doctorId);
+      const p = get().profile!;
+      set({ profile: { ...p, education: p.education.filter(e => e.id !== id) }, isSaving: false });
+    } catch (err: any) {
+      set({ error: err.message || 'Error al eliminar educación.', isSaving: false });
+      throw err;
+    }
   },
 
   addExperience: async (data) => {
-    set({ isSaving: true });
-    const newExp = await profileService.addExperience(data);
-    const p = get().profile!;
-    set({ profile: { ...p, experience: [...p.experience, newExp] }, isSaving: false });
+    const user = getAuthUser();
+    if (!user) return;
+    const doctorId = user.profileId;
+
+    set({ isSaving: true, error: null });
+    try {
+      const newExp = await profileService.addExperience(data, doctorId);
+      const p = get().profile!;
+      set({ profile: { ...p, experience: [...p.experience, newExp] }, isSaving: false });
+    } catch (err: any) {
+      set({ error: err.message || 'Error al guardar experiencia.', isSaving: false });
+      throw err;
+    }
   },
 
   updateExperience: async (id, data) => {
-    set({ isSaving: true });
-    await profileService.updateExperience(id, data);
-    const p = get().profile!;
-    set({ profile: { ...p, experience: p.experience.map(e => e.id === id ? { ...e, ...data } : e) }, isSaving: false });
+    const user = getAuthUser();
+    if (!user) return;
+    const doctorId = user.profileId;
+
+    set({ isSaving: true, error: null });
+    try {
+      await profileService.updateExperience(id, data, doctorId);
+      const p = get().profile!;
+      set({ profile: { ...p, experience: p.experience.map(e => e.id === id ? { ...e, ...data } : e) }, isSaving: false });
+    } catch (err: any) {
+      set({ error: err.message || 'Error al actualizar experiencia.', isSaving: false });
+      throw err;
+    }
   },
 
   deleteExperience: async (id) => {
-    set({ isSaving: true });
-    await profileService.deleteExperience(id);
-    const p = get().profile!;
-    set({ profile: { ...p, experience: p.experience.filter(e => e.id !== id) }, isSaving: false });
+    const user = getAuthUser();
+    if (!user) return;
+    const doctorId = user.profileId;
+
+    set({ isSaving: true, error: null });
+    try {
+      await profileService.deleteExperience(id, doctorId);
+      const p = get().profile!;
+      set({ profile: { ...p, experience: p.experience.filter(e => e.id !== id) }, isSaving: false });
+    } catch (err: any) {
+      set({ error: err.message || 'Error al eliminar experiencia.', isSaving: false });
+      throw err;
+    }
   }
 }));

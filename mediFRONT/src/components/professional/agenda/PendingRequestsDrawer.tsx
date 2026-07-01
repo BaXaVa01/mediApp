@@ -4,7 +4,18 @@ import { useAgendaStore } from '../../../store/agendaStore';
 import { X, CheckCircle2, XCircle } from 'lucide-react';
 
 export const PendingRequestsDrawer: React.FC = () => {
-  const { isPendingDrawerOpen, setPendingDrawerOpen, pendingRequests } = useAgendaStore();
+  const { isPendingDrawerOpen, setPendingDrawerOpen, pendingRequests, acceptRequest, rejectRequest, pendingError } = useAgendaStore();
+
+  let statusMessage = '';
+  if (pendingError) {
+    if (pendingError.includes('paginación') || pendingError.includes('PAGINATION') || pendingError.includes('INVALID_PAGINATION')) {
+      statusMessage = 'No pudimos cargar las solicitudes pendientes. Revisá los parámetros de paginación.';
+    } else {
+      statusMessage = 'No pudimos cargar tus solicitudes pendientes. Intentá nuevamente.';
+    }
+  } else if (pendingRequests.length === 0) {
+    statusMessage = 'No tenés solicitudes pendientes por aceptar.';
+  }
 
   return (
     <AnimatePresence>
@@ -35,26 +46,36 @@ export const PendingRequestsDrawer: React.FC = () => {
             </div>
             
             <div className="flex-1 overflow-y-auto p-6 space-y-4">
-              {pendingRequests.map(req => (
-                <div key={req.id} className="bg-white p-5 rounded-3xl border border-[#1C365C]/5 shadow-sm">
-                  <p className="text-[10px] font-bold text-[#E6CBB8] uppercase tracking-widest mb-1">{req.requestedDate.toLocaleDateString()}</p>
-                  <h3 className="font-bold text-lg text-[#1C365C]">{req.patientName}</h3>
-                  <p className="text-sm text-[#1C365C]/60 mb-4">{req.service} • {req.modality}</p>
-                  <div className="flex gap-2">
-                    <button className="flex-1 bg-[#5A9BD4]/10 text-[#5A9BD4] hover:bg-[#5A9BD4]/20 py-2.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-colors">
-                      <CheckCircle2 className="w-4 h-4" /> Accept
-                    </button>
-                    <button className="flex-1 bg-rose-50 text-rose-500 hover:bg-rose-100 py-2.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-colors">
-                      <XCircle className="w-4 h-4" /> Reject
-                    </button>
-                  </div>
+              {pendingError ? (
+                <div className="text-center text-red-500 font-bold mt-10 px-4">
+                  {statusMessage}
                 </div>
-              ))}
-              
-              {pendingRequests.length === 0 && (
+              ) : pendingRequests.length === 0 ? (
                 <div className="text-center text-[#1C365C]/40 font-bold mt-10">
-                  No pending requests
+                  {statusMessage}
                 </div>
+              ) : (
+                pendingRequests.map(req => (
+                  <div key={req.id} className="bg-white p-5 rounded-3xl border border-[#1C365C]/5 shadow-sm">
+                    <p className="text-[10px] font-bold text-[#E6CBB8] uppercase tracking-widest mb-1">{req.requestedDate.toLocaleDateString()}</p>
+                    <h3 className="font-bold text-lg text-[#1C365C]">{req.patientName}</h3>
+                    <p className="text-sm text-[#1C365C]/60 mb-4">{req.service} • {req.modality}</p>
+                    <div className="flex gap-2">
+                      <button 
+                        onClick={() => acceptRequest(req.id)}
+                        className="flex-1 bg-[#5A9BD4]/10 text-[#5A9BD4] hover:bg-[#5A9BD4]/20 py-2.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-colors"
+                      >
+                        <CheckCircle2 className="w-4 h-4" /> Accept
+                      </button>
+                      <button 
+                        onClick={() => rejectRequest(req.id)}
+                        className="flex-1 bg-rose-50 text-rose-500 hover:bg-rose-100 py-2.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-colors"
+                      >
+                        <XCircle className="w-4 h-4" /> Reject
+                      </button>
+                    </div>
+                  </div>
+                ))
               )}
             </div>
           </motion.div>
