@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  # 1. Tu Base de Datos
+  db:
+    image: postgres:15-alpine
+    container_name: medifind_db
+    environment:
+      POSTGRES_DB: medifind_db
+      POSTGRES_USER: baxava # Cambia esto por tu usuario
+      POSTGRES_PASSWORD: medifind_baxava # Cambia esto por tu contraseña
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # 2. Tu Backend en Spring Boot
+  backend:
+    build: . # Construye el Dockerfile que está en esta misma carpeta
+    container_name: medifind_backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db # Obliga a que la base de datos inicie primero
+    environment:
+      # Sobrescribimos las variables de application.properties
+      # Fíjate que en la URL ya no dice 'localhost', dice 'db' (el nombre del servicio de arriba)
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/medifind_db
+      SPRING_DATASOURCE_USERNAME: usuario_db
+      SPRING_DATASOURCE_PASSWORD: password_db
+
+# 3. Almacenamiento persistente
+volumes:
+  postgres_data: # Esto evita que tus datos se borren si apagas el contenedor
